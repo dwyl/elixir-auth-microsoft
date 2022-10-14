@@ -54,4 +54,23 @@ You should see several settings that you can tweak. The most relevant ones are
 
 <img width="1840" alt="Screenshot 2022-10-14 at 13 51 24" src="https://user-images.githubusercontent.com/17494745/195852458-6d022105-75df-474d-b92c-c2d79c77a07f.png">
 
+# 4.1 - Changing `Authentication`
+Let's start with `Authentication`. Click on the tab on the lefft-hand side panel and you're going to be greeted with the following prompts:
+
+<img width="1873" alt="Screenshot 2022-10-14 at 19 48 41" src="https://user-images.githubusercontent.com/17494745/195919719-96c8484c-94c3-4a5e-b06d-5615443bcb41.png">
+
+We're going to click on the `Add URI` and add the callback path to our application. In our case, we will write `/auth/microsoft/callback` - this will be the URI that Microsoft will *redirect to* after successful sign in.
+
+# 4.2 - Adding client secret
+We're going to be using an [auth code flow paired with Proof Key for Code Exchange (PKCE) and OpenID Connect (OIDC)](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) - this is the current and most secure standard to get an `access token` and `ID token`.
+
+> If you don't know what we're talking about, check the link above. This is an OpenID Connect standard procedure. 
+
+We are using a **client secret** here because we know this app will be hosted ***on a server*** and it's going to serve the files to the client, where environment variables are secured and not *exposable* (as is the case with web browsers). 
+
+To create a new secret, simply click on the the `New client secret` button, add a descriptive label and expiration time. This will create a new secret. Copy this secret immediatly because if you leave and rejoin the page, it will be censored.
+
+# 5 - Congratulations! 🎉
+That should be it! You're sorted, give yourself a pat on the back!
+
 // TO BE CONTINUED
