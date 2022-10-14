@@ -16,24 +16,27 @@ Microsoft has packages of paid services and free ones. The one we're using today
 
 So after you sign up and sign in, you are greeted with the Azure Portal webpage. Should look like this:
 
-// ADD HERE 1
+<img width="3120" alt="Screenshot 2022-10-14 at 13 38 26" src="https://user-images.githubusercontent.com/17494745/195852314-66b08e4a-1636-4344-bf50-db3169ba1f0c.png">
+
+
 
 ## 2. Go to Active Directory
 Now go to `Active Directory` (you can either search or click on the icon if it's showing). 
 
 You should see the following page. In the left pane, click on `App Registrations`.
 
-// ADD HERE 2
+<img width="3120" alt="Screenshot 2022-10-14 at 13 40 26" src="https://user-images.githubusercontent.com/17494745/195852340-20fc1fd3-f3df-40a5-b6f5-3678793f885f.png">
+
 
 Now click on `+ New registration` right below the title of the page. This should prompt you to the next step.
 
-// ADD HERE 3
+<img width="3076" alt="Screenshot 2022-10-14 at 13 43 03" src="https://user-images.githubusercontent.com/17494745/195852367-012fa411-a070-4fda-96ee-83f617331287.png">
 
 ## 3. Create your application
 You're prompted with a simple form now, which you ought to complete. Name your application whatever you want. 
 We decided to name this one `elixir-demo`. 
 
-// ADD HERE 4
+<img width="1840" alt="Screenshot 2022-10-14 at 13 47 05" src="https://user-images.githubusercontent.com/17494745/195852413-2cd05964-a269-444e-9cda-5ef3836582cd.png">
 
 On `Supporter account type`, make sure you check the one that allows **personal Microsoft accounts** if you're 
 a solo developer with a regular Hotmail account. The differences between these options are in the picture above,
@@ -49,7 +52,6 @@ After registration, you are prompted with your newly created app registration.
 You should see several settings that you can tweak. The most relevant ones are
 `Authentication` and `Certificates & Secrets`.
 
-// ADD HERE 4
-
+<img width="1840" alt="Screenshot 2022-10-14 at 13 51 24" src="https://user-images.githubusercontent.com/17494745/195852458-6d022105-75df-474d-b92c-c2d79c77a07f.png">
 
 // TO BE CONTINUED
