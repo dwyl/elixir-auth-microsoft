@@ -1,11 +1,12 @@
-# ElixirAuthMicrosoft
 
-**TODO: Add description**
+# Elixir Auth Microsoft
+
+Soon: https://github.com/dwyl/elixir-auth-microsoft/pull/4
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `elixir_auth_microsoft` to your list of dependencies in `mix.exs`:
+Add the following line to the `deps` section 
+in your project's `mix.exs` file:
 
 ```elixir
 def deps do
@@ -15,7 +16,6 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/elixir_auth_microsoft>.
+Documentation can be found at: 
+https://hexdocs.pm/elixir_auth_microsoft
 
