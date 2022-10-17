@@ -18,8 +18,7 @@ defmodule ElixirAuthMicrosoft do
       response_type: "code",
       redirect_uri: generate_redirect_uri(conn),
       scope: @default_scope,
-      response_mode: "query",
-      state: "1234"
+      response_mode: "query"
     }
 
     params = URI.encode_query(query, :rfc3986)
@@ -73,11 +72,11 @@ defmodule ElixirAuthMicrosoft do
 
 
   defp microsoft_client_secret do
-    System.get_env("MICROSOFT_CLIENT_SECRET")
+    System.get_env("MICROSOFT_CLIENT_SECRET") || Application.get_env(:elixir_auth_microsoft, :client_id)
   end
 
   defp microsoft_client_id do
-    System.get_env("MICROSOFT_CLIENT_ID")
+    System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_secret)
   end
 
   defp get_callback_path do

@@ -36,3 +36,5 @@ _build
 .elixir_ls
 
 cover/
+
+.vscode/
