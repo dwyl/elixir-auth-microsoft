@@ -34,3 +34,5 @@ Deps
 .DS_Store
 _build
 .elixir_ls
+
+cover/
