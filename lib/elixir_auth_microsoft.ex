@@ -1,8 +1,6 @@
 defmodule ElixirAuthMicrosoft do
-  @moduledoc """
-  Minimalist Google OAuth Authentication for Elixir Apps.
-  Extensively tested, documented, maintained and in active use in production.
-  """
+
+
   @authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
   @profile_url "https://graph.microsoft.com/v1.0/me"
@@ -13,11 +11,11 @@ defmodule ElixirAuthMicrosoft do
 
   def inject_poison, do: @httpoison
 
-  def generate_oauth_url_authorize(_conn) do
+  def generate_oauth_url_authorize(conn) do
     query = %{
       client_id: "a00c63f7-6da6-43bd-a94f-74d36486264a",
       response_type: "code",
-      redirect_uri: "http://localhost:4000/auth/microsoft/callback",
+      redirect_uri: generate_redirect_uri(conn),
       scope: @default_scope,
       response_mode: "query",
       state: "1234"
@@ -28,15 +26,14 @@ defmodule ElixirAuthMicrosoft do
     "#{@authorize_url}?&#{params}"
   end
 
-  def get_token(code, _conn) do
-
+  def get_token(code, conn) do
     headers = ["Content-Type": "multipart/form-data"]
 
     # We don't encode with JSON because the endpoint only works properly with uriencoded form data
     body = [
       {"grant_type", "authorization_code"},
       {"client_id", "a00c63f7-6da6-43bd-a94f-74d36486264a"},
-      {"redirect_uri", "http://localhost:4000/auth/microsoft/callback"},
+      {"redirect_uri", generate_redirect_uri(conn)},
       {"code", code},
       {"scope", @default_scope},
       {"client_secret", google_client_secret()}
@@ -69,8 +66,26 @@ defmodule ElixirAuthMicrosoft do
   end
 
 
+  defp generate_redirect_uri(conn) do
+    get_baseurl_from_conn(conn) <> get_callback_path()
+  end
+
+
   defp google_client_secret do
     System.get_env("MICROSOFT_CLIENT_SECRET")
+  end
+
+  defp get_callback_path do
+    System.get_env("MICROSOFT_CALLBACK_PATH") || @default_callback_path
+  end
+
+
+  defp get_baseurl_from_conn(%{host: h, port: p}) when h == "localhost" do
+    "http://#{h}:#{p}"
+  end
+
+  defp get_baseurl_from_conn(%{host: h}) do
+    "https://#{h}"
   end
 
 end
