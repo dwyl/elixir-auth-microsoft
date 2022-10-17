@@ -76,4 +76,6 @@ defmodule ElixirAuthMicrosoftTest do
 
 
   ## TODO add env variables going as nil to test how the program behaves with no setup
+
+
 end

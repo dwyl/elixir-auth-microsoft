@@ -3,6 +3,8 @@ defmodule ElixirAuthMicrosoft do
   @authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
   @profile_url "https://graph.microsoft.com/v1.0/me"
+  @profile_picture_url "https://graph.microsoft.com/v1.0/me/photo/$value"
+
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
 
@@ -15,7 +17,7 @@ defmodule ElixirAuthMicrosoft do
       client_id: microsoft_client_id(),
       response_type: "code",
       redirect_uri: generate_redirect_uri(conn),
-      scope: @default_scope,
+      scope: get_microsoft_scopes(),
       response_mode: "query"
     }
 
@@ -37,7 +39,7 @@ defmodule ElixirAuthMicrosoft do
       {"client_id", microsoft_client_id()},
       {"redirect_uri", generate_redirect_uri(conn)},
       {"code", code},
-      {"scope", @default_scope},
+      {"scope", get_microsoft_scopes()},
       {"client_secret", microsoft_client_secret()}
     ]
 
@@ -72,6 +74,9 @@ defmodule ElixirAuthMicrosoft do
     get_baseurl_from_conn(conn) <> get_callback_path()
   end
 
+  defp get_microsoft_scopes do
+    System.get_env("MICROSOFT_SCOPES_LIST") || Application.get_env(:elixir_auth_microsoft, :scopes) || @default_scope
+  end
 
   defp microsoft_client_secret do
     System.get_env("MICROSOFT_CLIENT_SECRET") || Application.get_env(:elixir_auth_microsoft, :client_id)
