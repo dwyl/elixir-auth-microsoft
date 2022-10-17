@@ -2,6 +2,7 @@ defmodule ElixirAuthMicrosoftTest do
   use ExUnit.Case, async: true
   doctest ElixirAuthMicrosoft
 
+  # Tests the generated OAuth URL for localhost scenarios and passing state.
   test "generate_oauth_url_authorize(conn) for dev/localhost with state" do
     conn = %{
       host: "localhost",
@@ -23,6 +24,7 @@ defmodule ElixirAuthMicrosoftTest do
     assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn, state) == expected
   end
 
+  # Tests the generated OAuth URL for when the package is used in production with a custom host.
   test "generate_oauth_url_authorize(conn) for production" do
     conn = %{
       host: "dwyl.com"
@@ -42,7 +44,8 @@ defmodule ElixirAuthMicrosoftTest do
     assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn) == expected
   end
 
-  test "get_oken" do
+  # Tests fetching the token by passing a certain token.
+  test "get_token" do
     conn = %{
       host: "localhost",
       port: 4000
@@ -52,6 +55,7 @@ defmodule ElixirAuthMicrosoftTest do
     assert res == %{access_token: "token1"}
   end
 
+  # Tests fetching the user profile by passing a specific token. Tests a positive case.
   test "get_user_profile(token)" do
     res = %{
       businessPhones: [],
@@ -70,12 +74,11 @@ defmodule ElixirAuthMicrosoftTest do
     assert ElixirAuthMicrosoft.get_user_profile("token123") == {:ok, res}
   end
 
+  # Tests fetching the user profile but with an invalid token. Tests a negative case.
   test "get_user_profile(token) with invalid token" do
     assert ElixirAuthMicrosoft.get_user_profile("invalid_token") == {:error, :bad_request}
   end
 
 
   ## TODO add env variables going as nil to test how the program behaves with no setup
-
-
 end
