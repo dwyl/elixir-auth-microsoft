@@ -7,7 +7,8 @@ defmodule ElixirAuthMicrosoft do
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
 
-  @httpoison HTTPoison
+  @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) &&
+  ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
 
   def inject_poison, do: @httpoison
 
