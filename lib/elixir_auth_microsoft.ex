@@ -13,7 +13,7 @@ defmodule ElixirAuthMicrosoft do
 
   def generate_oauth_url_authorize(conn) do
     query = %{
-      client_id: "a00c63f7-6da6-43bd-a94f-74d36486264a",
+      client_id: microsoft_client_id(),
       response_type: "code",
       redirect_uri: generate_redirect_uri(conn),
       scope: @default_scope,
@@ -32,11 +32,11 @@ defmodule ElixirAuthMicrosoft do
     # We don't encode with JSON because the endpoint only works properly with uriencoded form data
     body = [
       {"grant_type", "authorization_code"},
-      {"client_id", "a00c63f7-6da6-43bd-a94f-74d36486264a"},
+      {"client_id", microsoft_client_id()},
       {"redirect_uri", generate_redirect_uri(conn)},
       {"code", code},
       {"scope", @default_scope},
-      {"client_secret", google_client_secret()}
+      {"client_secret", microsoft_client_secret()}
     ]
 
     inject_poison().post(@token_url, {:multipart, body}, headers)
@@ -71,8 +71,12 @@ defmodule ElixirAuthMicrosoft do
   end
 
 
-  defp google_client_secret do
+  defp microsoft_client_secret do
     System.get_env("MICROSOFT_CLIENT_SECRET")
+  end
+
+  defp microsoft_client_id do
+    System.get_env("MICROSOFT_CLIENT_ID")
   end
 
   defp get_callback_path do
