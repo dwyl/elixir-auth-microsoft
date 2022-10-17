@@ -2,12 +2,13 @@ defmodule ElixirAuthMicrosoftTest do
   use ExUnit.Case, async: true
   doctest ElixirAuthMicrosoft
 
-  test "generate_oauth_url_authorize(conn) for dev/localhost" do
+  test "generate_oauth_url_authorize(conn) for dev/localhost with state" do
     conn = %{
       host: "localhost",
       port: 4000
     }
 
+    state = "random_state"
     id = System.get_env("MICROSOFT_CLIENT_ID")
     id_from_config = Application.get_env(:elixir_auth_microsoft, :client_id)
 
@@ -17,9 +18,9 @@ defmodule ElixirAuthMicrosoftTest do
     expected_scope = URI.encode_www_form("https://graph.microsoft.com/User.Read")
 
     expected =
-      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=" <> id <> "&redirect_uri=" <> expected_redirect_uri <> "&response_mode=query&response_type=code&scope=" <> expected_scope
+      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=" <> id <> "&redirect_uri=" <> expected_redirect_uri <> "&response_mode=query&response_type=code&scope=" <> expected_scope <> "?&state=" <> state
 
-    assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn) == expected
+    assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn, state) == expected
   end
 
   test "generate_oauth_url_authorize(conn) for production" do

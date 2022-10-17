@@ -1,16 +1,14 @@
 defmodule ElixirAuthMicrosoft do
 
-
   @authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
   @profile_url "https://graph.microsoft.com/v1.0/me"
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
 
-  @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) &&
-  ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
-
-  def inject_poison, do: @httpoison
+  # When testing, it uses a mocked version of HTTPoison. On production, it uses the original version
+  @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) && ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
+  defp http, do: @httpoison
 
   def generate_oauth_url_authorize(conn) do
     query = %{
@@ -22,8 +20,12 @@ defmodule ElixirAuthMicrosoft do
     }
 
     params = URI.encode_query(query, :rfc3986)
-
     "#{@authorize_url}?&#{params}"
+  end
+
+  def generate_oauth_url_authorize(conn, state) when is_binary(state) do
+    params = URI.encode_query(%{state: state}, :rfc3986)
+    generate_oauth_url_authorize(conn) <> "&#{params}"
   end
 
   def get_token(code, conn) do
@@ -39,7 +41,7 @@ defmodule ElixirAuthMicrosoft do
       {"client_secret", microsoft_client_secret()}
     ]
 
-    inject_poison().post(@token_url, {:multipart, body}, headers)
+    http().post(@token_url, {:multipart, body}, headers)
     |>parse_body_response()
 
   end
@@ -47,7 +49,7 @@ defmodule ElixirAuthMicrosoft do
   def get_user_profile(token) do
     headers = ["Authorization": "Bearer #{token}", "Content-Type": "application/json"]
 
-    inject_poison().get(@profile_url, headers)
+    http().get(@profile_url, headers)
     |> parse_body_response()
 
   end
