@@ -18,7 +18,7 @@ defmodule ElixirAuthMicrosoftTest do
     expected_scope = URI.encode_www_form("https://graph.microsoft.com/User.Read")
 
     expected =
-      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=" <> id <> "&redirect_uri=" <> expected_redirect_uri <> "&response_mode=query&response_type=code&scope=" <> expected_scope <> "?&state=" <> state
+      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=" <> id <> "&redirect_uri=" <> expected_redirect_uri <> "&response_mode=query&response_type=code&scope=" <> expected_scope <> "&state=" <> state
 
     assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn, state) == expected
   end

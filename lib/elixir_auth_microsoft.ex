@@ -57,7 +57,7 @@ defmodule ElixirAuthMicrosoft do
   def parse_body_response({:error, err}), do: {:error, err}
   def parse_body_response({:ok, response}) do
     body = Map.get(response, :body)
-    # make keys of map atoms for easier access in templates
+
     if body == nil do
       {:error, :no_body}
     else
