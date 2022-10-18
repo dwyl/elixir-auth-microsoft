@@ -137,12 +137,13 @@ Please, do check the guide [here](/demo/README.md).
 
 The home page of the app now should have a big "Sign in with Microsoft" button:
 
-![sign-in-button](https://user-images.githubusercontent.com/194400/70202961-3c32c880-1713-11ea-9737-9121030ace06.png)
+<img width="1306" alt="first_page" src="https://user-images.githubusercontent.com/17494745/196440727-583b804a-6716-4aed-a0aa-fd894d78d7f6.png">
+
 
 When the person clicks the button, they should be prompted
 with the Microsoft Sign-in page.
 
-<img width="1298" alt="Screenshot 2022-10-18 at 12 37 44" src="https://user-images.githubusercontent.com/17494745/196425192-4ca634ba-1573-4b14-9c9b-aee890043d34.png">
+<img width="1306" alt="consent_form" src="https://user-images.githubusercontent.com/17494745/196440842-82aa95ba-ccc0-4d04-81a2-5f71819795c7.png">
 
 
 The person will then have to consent to the defined scopes
@@ -151,9 +152,8 @@ requested.
 
 After this, they will be shown the following page
 after successful login.
-<img width="1222" alt="welcome" src="https://user-images.githubusercontent.com/17494745/196406469-7278d190-63b0-4740-ac10-5a6305c3cb6a.png">
 
-
+<img width="1306" alt="successful_login" src="https://user-images.githubusercontent.com/17494745/196441038-5cdfecbb-626e-42e0-be94-65fb9725dc19.png">
 
 ## Optimised SVG + CSS Button
 
@@ -172,8 +172,8 @@ we'll find a few options and themes on SVG format.
 The result looks _better_ than the `<img>` button. 
 Here's a comparison between the two:
 
-<img width="999" alt="Screenshot 2022-10-18 at 13 00 19" src="https://user-images.githubusercontent.com/17494745/196425270-94100e5f-24f6-4759-8ff3-7ac8648c47bd.png">
 
+<img width="1306" alt="two_buttons" src="https://user-images.githubusercontent.com/17494745/196441338-8c46d7d0-8fbc-4515-9f0a-591faaa63c47.png">
 
 
 ## Notes 📝
