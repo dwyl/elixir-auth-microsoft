@@ -72,5 +72,3 @@ To create a new secret, simply click on the the `New client secret` button, add 
 
 # 5 - Congratulations! 🎉
 That should be it! You're sorted, give yourself a pat on the back!
-
-// TO BE CONTINUED

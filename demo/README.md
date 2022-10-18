@@ -238,7 +238,7 @@ and type the following code:
   <h1>Welcome to Awesome App!</h1>
   <p>To get started, login to your Microsoft Account: </p>
   <a href={@oauth_microsoft_url}>
-    <img src="https://20o8nn37v3mzb7unq3fsj61e-wpengine.netdna-ssl.com/wp-content/uploads/2021/07/Sign-in-with-Microsoft-Button.png" alt="Sign in with Microsoft" />
+    <img src="https://learn.microsoft.com/en-us/azure/active-directory/develop/media/howto-add-branding-in-azure-ad-apps/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
   </a>
 </section>
 ```
