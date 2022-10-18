@@ -252,4 +252,5 @@ Once the person completes their authentication with Microsoft,
 they should see the following welcome message, 
 with your account name and display name:
 
-![welcome](//pass here)
+<img width="1222" alt="Screenshot 2022-10-18 at 11 24 18" src="https://user-images.githubusercontent.com/17494745/196406469-7278d190-63b0-4740-ac10-5a6305c3cb6a.png">
+
