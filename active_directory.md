@@ -16,8 +16,7 @@ Microsoft has packages of paid services and free ones. The one we're using today
 
 So after you sign up and sign in, you are greeted with the Azure Portal webpage. Should look like this:
 
-<img width="3120" alt="Screenshot 2022-10-14 at 13 38 26" src="https://user-images.githubusercontent.com/17494745/195852314-66b08e4a-1636-4344-bf50-db3169ba1f0c.png">
-
+<img width="1436" alt="home" src="https://user-images.githubusercontent.com/17494745/196442972-acd0f101-6ee4-4a7e-8afd-3da316d2a378.png">
 
 
 ## 2. Go to Active Directory
@@ -25,18 +24,19 @@ Now go to `Active Directory` (you can either search or click on the icon if it's
 
 You should see the following page. In the left pane, click on `App Registrations`.
 
-<img width="3120" alt="Screenshot 2022-10-14 at 13 40 26" src="https://user-images.githubusercontent.com/17494745/195852340-20fc1fd3-f3df-40a5-b6f5-3678793f885f.png">
-
+<img width="1436" alt="ad" src="https://user-images.githubusercontent.com/17494745/196443021-239575d1-dab6-43bb-86d8-1b1becfc3c28.png">
 
 Now click on `+ New registration` right below the title of the page. This should prompt you to the next step.
 
-<img width="3076" alt="Screenshot 2022-10-14 at 13 43 03" src="https://user-images.githubusercontent.com/17494745/195852367-012fa411-a070-4fda-96ee-83f617331287.png">
+<img width="1436" alt="registration" src="https://user-images.githubusercontent.com/17494745/196443075-d6f8b390-2c2d-4f69-a8dc-3bc925c62e64.png">
 
 ## 3. Create your application
 You're prompted with a simple form now, which you ought to complete. Name your application whatever you want. 
 We decided to name this one `elixir-demo`. 
 
-<img width="1840" alt="Screenshot 2022-10-14 at 13 47 05" src="https://user-images.githubusercontent.com/17494745/195852413-2cd05964-a269-444e-9cda-5ef3836582cd.png">
+
+<img width="1436" alt="new_app" src="https://user-images.githubusercontent.com/17494745/196443153-825c756e-808b-490b-a150-db78de65d89c.png">
+
 
 On `Supporter account type`, make sure you check the one that allows **personal Microsoft accounts** if you're 
 a solo developer with a regular Hotmail account. The differences between these options are in the picture above,
@@ -52,12 +52,13 @@ After registration, you are prompted with your newly created app registration.
 You should see several settings that you can tweak. The most relevant ones are
 `Authentication` and `Certificates & Secrets`.
 
-<img width="1840" alt="Screenshot 2022-10-14 at 13 51 24" src="https://user-images.githubusercontent.com/17494745/195852458-6d022105-75df-474d-b92c-c2d79c77a07f.png">
+
+<img width="1436" alt="app_overview" src="https://user-images.githubusercontent.com/17494745/196443321-70886a54-c2ab-4577-8139-88ca323bd3ce.png">
 
 # 4.1 - Changing `Authentication`
 Let's start with `Authentication`. Click on the tab on the lefft-hand side panel and you're going to be greeted with the following prompts:
 
-<img width="1873" alt="Screenshot 2022-10-14 at 19 48 41" src="https://user-images.githubusercontent.com/17494745/195919719-96c8484c-94c3-4a5e-b06d-5615443bcb41.png">
+<img width="1436" alt="auth" src="https://user-images.githubusercontent.com/17494745/196443390-5ee8cad9-ec19-45e9-aeb0-015c60c23226.png">
 
 We're going to click on the `Add URI` and add the callback path to our application. In our case, we will write `/auth/microsoft/callback` - this will be the URI that Microsoft will *redirect to* after successful sign in.
 
@@ -69,6 +70,9 @@ We're going to be using an [auth code flow paired with Proof Key for Code Exchan
 We are using a **client secret** here because we know this app will be hosted ***on a server*** and it's going to serve the files to the client, where environment variables are secured and not *exposable* (as is the case with web browsers). 
 
 To create a new secret, simply click on the the `New client secret` button, add a descriptive label and expiration time. This will create a new secret. Copy this secret immediatly because if you leave and rejoin the page, it will be censored.
+
+<img width="1436" alt="secret" src="https://user-images.githubusercontent.com/17494745/196443496-e366e5be-b94d-4590-80cc-9d4d7a4166c9.png">
+
 
 # 5 - Congratulations! 🎉
 That should be it! You're sorted, give yourself a pat on the back!
