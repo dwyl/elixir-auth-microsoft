@@ -14,8 +14,6 @@ defmodule AppWeb.MicrosoftAuthController do
     {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
     {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
 
-    profile = Map.put(profile, :picture, 'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg')
-
     conn
     |> put_view(AppWeb.PageView)
     |> render(:welcome, profile: profile)
