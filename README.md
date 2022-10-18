@@ -142,7 +142,8 @@ The home page of the app now should have a big "Sign in with Microsoft" button:
 When the person clicks the button, they should be prompted
 with the Microsoft Sign-in page.
 
-// put here
+<img width="1298" alt="Screenshot 2022-10-18 at 12 37 44" src="https://user-images.githubusercontent.com/17494745/196425192-4ca634ba-1573-4b14-9c9b-aee890043d34.png">
+
 
 The person will then have to consent to the defined scopes
 in the App Registration alongside the overlap of the scope(s)
@@ -169,9 +170,10 @@ If we follow this [link](https://learn.microsoft.com/en-us/azure/active-director
 we'll find a few options and themes on SVG format.
 
 The result looks _better_ than the `<img>` button. 
-Here's a comparison with the two:
+Here's a comparison between the two:
 
-// past here 2
+<img width="999" alt="Screenshot 2022-10-18 at 13 00 19" src="https://user-images.githubusercontent.com/17494745/196425270-94100e5f-24f6-4759-8ff3-7ac8648c47bd.png">
+
 
 
 ## Notes 📝
