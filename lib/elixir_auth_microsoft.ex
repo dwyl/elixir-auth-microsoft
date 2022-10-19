@@ -1,15 +1,15 @@
 defmodule ElixirAuthMicrosoft do
   @moduledoc """
-  A simple, minimalist Microsoft OAuth Authentication for Elixir Apps.
-  Tested, documented and maintained. Offers simple access to tokens and basic user profile information.
+  Minimalist Microsoft OAuth Authentication for Elixir Apps.
+  Tested, documented and maintained.
+  Offers simple access to tokens and basic user profile info.
   """
 
   @authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
-  @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
-  @profile_url "https://graph.microsoft.com/v1.0/me"
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
-
+  @profile_url "https://graph.microsoft.com/v1.0/me"
+  @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 
   @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) && ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
 
