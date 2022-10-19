@@ -175,13 +175,17 @@ Save the values to an `.env` file.
 e.g:
 ```sh
 export MICROSOFT_CLIENT_SECRET=rDq8Q~.uc-237FryAt-lGu7G1sQkKR
-export MICROSOFT_CLIENT_ID=85228de4-cf4f-4249-ae05-247365
+export MICROSOFT_CLIENT_ID=a3d22eeb-85aa-4650-8ee8-3383931
 ```
 
 > **Note**: Don't worry, these aren't valid/real. 
 > They are just for illustration.
 
+The `MICROSOFT_CLIENT_ID` was visible at the end of step 3.
 
 # 5 - Congratulations! 🎉
 
+At this point you can export these variables in your `Phoenix` app
+and everything should work. 
 
+Let us know if you get stuck. 
