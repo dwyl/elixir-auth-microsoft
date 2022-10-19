@@ -111,8 +111,7 @@ you should see several settings that you can tweak.
 The most relevant ones are
 `Authentication` and `Certificates & Secrets`.
 
-
-<img width="1436" alt="app_overview" src="https://user-images.githubusercontent.com/17494745/196443321-70886a54-c2ab-4577-8139-88ca323bd3ce.png">
+![azure-app-created](https://user-images.githubusercontent.com/194400/196785162-7cc53568-10c0-4170-b1f3-5054c81d8efa.png)
 
 # 4.1 - Changing `Authentication` URI
 
