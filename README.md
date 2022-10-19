@@ -2,17 +2,31 @@
 
 # `elixir-auth-microsoft`
 
-An easy way to get Microsoft OAuth authentication up and running in your Elixir application.
+An easy way to get **Microsoft `OAuth` authentication** 
+up and running in your **`Elixir` / `Phoenix`** app.
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/elixir-auth-microsoft/Elixir%20CI?label=build&style=flat-square)
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/elixir-auth-microsoft/master.svg?style=flat-square)](http://codecov.io/github/dwyl/elixir-auth-microsoft?branch=main)
+[![Hex.pm](https://img.shields.io/hexpm/v/elixir-auth-microsoft?color=brightgreen&style=flat-square)](https://hex.pm/packages/elixir-auth-microsoft)
+[![HitCount](http://hits.dwyl.com/dwyl/elixir-auth-microsoft.svg)](http://hits.dwyl.com/dwyl/elixir-auth-microsoft)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/elixir-auth-microsoft/issues)
+
+![sign-in-with-microsoft-buttons](https://user-images.githubusercontent.com/194400/196658191-31c7594e-f041-4e63-b49e-3289e8c31b10.png)
+
 
 </div>
 
 
 # _Why_? 🤷
 
-Following [`Google`](https://github.com/dwyl/elixir-auth-google)
-and [`Github`](https://github.com/dwyl/elixir-auth-github), it
-made sense for us to have a simple and **documented** way to add 
-a "Sign-in with Microsoft" capability to add to our Elixir apps.
+Following 
+[`Google`](https://github.com/dwyl/elixir-auth-google)
+and 
+[`Github`](https://github.com/dwyl/elixir-auth-github)
+it
+made sense for us to have a simple and **documented** way 
+to add "**Sign-in with _Microsoft_**" capability 
+to add to our Elixir apps.
 
 # _What_? 💭
 
@@ -32,9 +46,6 @@ for adding Microsoft Auth to apps on
 [hex.pm/packages?search=microsoft](https://hex.pm/packages?search=microsoft).<br />
 Most of these are not specific to Azure AD or build upon other auth packages
 that have much more implementation steps and complexity.</br>
-e.g:
-[github.com/googleapis/ueberauth_microsoft](https://github.com/swelham/ueberauth_microsoft)
-which builds upon the Ueberauth auth platform. <br />
 We focused on making a _simple_ package that 
 has both step-by-step instructions
 and a _complete working example_ App.
@@ -183,5 +194,12 @@ Here's a comparison between the two:
 https://learn.microsoft.com/en-us/azure/active-directory/
 + Azure Authentication Flow used:
 https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow#use-the-access-token
-+ Microsoft Auth branding guidelines:
+
+## Branding Guidelines
+
+The official Microsoft Auth branding guidelines specify exact button, font and spacing:
 https://learn.microsoft.com/en-us/azure/active-directory/develop/howto-add-branding-in-azure-ad-apps
+
+![sign-in-with-microsoft-redlines](https://user-images.githubusercontent.com/194400/196657843-0a92e351-4c1f-4100-b13e-ae0b9afee260.png)
+
+We have followed them precisely in our implementation. 
