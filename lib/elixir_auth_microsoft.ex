@@ -26,6 +26,10 @@ defmodule ElixirAuthMicrosoft do
   """
   @spec generate_oauth_url_authorize(Conn.t()) :: String.t()
   def generate_oauth_url_authorize(conn) do
+
+    Application.compile_env(:elixir_auth_microsoft, :httpoison_mock)
+    |> IO.inspect(label: ":elixir_auth_microsoft -> :httpoison_mock")
+
     query = %{
       client_id: microsoft_client_id(),
       response_type: "code",
@@ -45,7 +49,9 @@ defmodule ElixirAuthMicrosoft do
   @spec generate_oauth_url_authorize(%{:host => any, optional(any) => any}, binary) :: String.t()
   def generate_oauth_url_authorize(conn, state) when is_binary(state) do
     params = URI.encode_query(%{state: state}, :rfc3986)
+    IO.inspect(params, label: "params")
     generate_oauth_url_authorize(conn) <> "&#{params}"
+    |> IO.inspect(label: "49")
   end
 
   @doc """
