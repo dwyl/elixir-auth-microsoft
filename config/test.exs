@@ -1,4 +1,4 @@
-use Mix.Config
+import Mix.Config
 
 config :elixir_auth_microsoft,
   client_id: "ks920olws-10ls-109s-s9k2-ki290s92le1",
