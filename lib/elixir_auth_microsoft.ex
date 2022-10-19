@@ -113,11 +113,11 @@ defmodule ElixirAuthMicrosoft do
   end
 
   defp microsoft_client_secret do
-    System.get_env("MICROSOFT_CLIENT_SECRET") || Application.get_env(:elixir_auth_microsoft, :client_id)
+    System.get_env("MICROSOFT_CLIENT_SECRET") || Application.get_env(:elixir_auth_microsoft, :client_secret)
   end
 
   defp microsoft_client_id do
-    System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_secret)
+    System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_id)
   end
 
   defp get_callback_path do
