@@ -125,33 +125,37 @@ And if you get stuck,
 At the end of following the guide you will have 
 the two secrets you need to proceed.
 
-## 3. Setup `MICROSOFT_CLIENT_ID` and `MICROSOFT_CLIENT_SECRET`
+## 3. Export Environment / Application Variables
 
 You may either export these 
 as environment variables 
-or put them in the **`config`**:
+or store them as application secrets:
 
-```
+e.g:
+
+```sh
 export MICROSOFT_CLIENT_SECRET=rDq8Q~.uc-237FryAt-lGu7G1sQkKR
 export MICROSOFT_CLIENT_ID=85228de4-cf4f-4249-ae05-247365
 export MICROSOFT_SCOPES_LIST=openid profile 
 ```
 
-> **Note**: These keys aren't valid, just for illustration purposes.
+> **Note**: These keys aren't valid, 
+> they are just for illustration purposes.
 
-***Or*** add the following in the config file:
+***alternatively*** add the following lines to your
+`config/runtime.exs` file:
 
 ```elixir
 config :elixir_auth_microsoft,
   client_id: "00c63f7-6da6-43bd-a94f-74d36486264a",
   client_secret: "paX8Q~_SRO9~UScMi4GTyw.oC8U_De.MiqDX~dBO"
-  scopes: openid profile
+  scopes: "openid profile"
 ```
 
 See: https://hexdocs.pm/phoenix/deployment.html#handling-of-your-application-secrets
 
-The `scopes` and `MICROSOFT_SCOPES_LIST` are **optional**, 
-and they default to the user profile. 
+The `MICROSOFT_SCOPES_LIST` or `scopes` are **optional**, 
+and they default to the user `profile`. 
 For the scopes available, see:
 [learn.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent](https://hexdocs.pm/phoenix/deployment.html#handling-of-your-application-secrets)
 Remember that the scopes you request 
@@ -164,34 +168,51 @@ Find more information in the
 
 ## 4. Follow the demo guide 📝
 
-We've created a guide that takes you step-by-step to get 
-a boostrapped Phoenix generated application with 
-Microsoft authentication in just a few steps. 
+For a more in-depth / real-world implementation,
+we've created a guide that takes you step-by-step 
+through creating a `Phoenix` app with
+Microsoft authentication.
 
-Please, do check the guide [here](/demo/README.md).
+Please, do check the guide: 
+[/**demo**/README.md](/demo/README.md).
 
 # _Done_! 🚀
 
 The home page of the app now should have a big "Sign in with Microsoft" button:
 
-<img width="1306" alt="first_page" src="https://user-images.githubusercontent.com/17494745/196440727-583b804a-6716-4aed-a0aa-fd894d78d7f6.png">
+![elixir-auth-microsoft-demo](https://user-images.githubusercontent.com/194400/196782404-0918edf9-65e1-4a4d-b676-31bd10b8cd42.png)
 
-
-When the person clicks the button, 
+When the person clicks the "**Sign in with Microsoft**" button, 
 they should be prompted
-with the Microsoft Sign-in page.
+with the Microsoft Sign-in page:
 
-<img width="1306" alt="consent_form" src="https://user-images.githubusercontent.com/17494745/196440842-82aa95ba-ccc0-4d04-81a2-5f71819795c7.png">
+![demo-signin-page](https://user-images.githubusercontent.com/194400/196753149-c7af146e-cee8-4c2d-b4fc-9c6fb73f339a.png)
 
+This makes it clear what App they are authenticating with,
+in our case **`elixir-auth-microsoft-demo`**
+(_your app will be whatever you called it!_)
 
 The person will then have to consent to the defined scopes
 in the App Registration alongside the overlap of the scope(s)
 requested.
 
 After this, they will be shown the following page
-after successful login.
+after successful login:
 
-<img width="1306" alt="successful_login" src="https://user-images.githubusercontent.com/17494745/196441038-5cdfecbb-626e-42e0-be94-65fb9725dc19.png">
+![auth-success-welcome](https://user-images.githubusercontent.com/194400/196753288-31b1ddd3-8e4e-40e6-bf7d-35214a05c546.png)
+
+
+That's it!
+You can chose to do whatever you want after this point.
+If you have any questions or get stuck,
+please 
+[open an issue](https://github.com/dwyl/elixir-auth-microsoft/issues). 💬
+
+If you find this package/repo _useful_,
+please star on GitHub, 
+so that we know! ⭐ 
+
+Thank you! 🙏 
 
 <br />
 
