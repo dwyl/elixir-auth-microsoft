@@ -5,16 +5,20 @@ defmodule ElixirAuthMicrosoft.MixProject do
     [
       app: :elixir_auth_microsoft,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-
+      aliases: aliases(),
+      package: package(),
+      description: "Turnkey Microsoft OAuth for Elixir/Phoenix App.",
       # Coverage
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
+        c: :test,
         coveralls: :test,
         "coveralls.json": :test,
-        "coveralls.html": :test
+        "coveralls.html": :test,
+        t: :test
       ]
     ]
   end
@@ -35,6 +39,31 @@ defmodule ElixirAuthMicrosoft.MixProject do
       # Testing
       {:excoveralls, "~> 0.15.0", only: [:test, :dev]},
       {:mock, "~> 0.3.7", only: :test},
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      t: ["test"],
+      c: ["coveralls.html"]
+    ]
+  end
+
+  # Package used for publishing on Hex.pm see: https://hex.pm/docs/publish
+  defp package() do
+    [
+      files:
+        ~w(lib/elixir_auth_microsoft.ex lib/httpoison_mock.ex LICENSE mix.exs README.md),
+      name: "elixir_auth_microsoft",
+      licenses: ["GPL-2.0-or-later"],
+      maintainers: ["dwyl"],
+      links: %{"GitHub" => "https://github.com/dwyl/elixir-auth-microsoft"}
     ]
   end
 end
