@@ -12,7 +12,7 @@ So you don't have to think about it.
 Just plug-and-play in **5 mins**.
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/elixir-auth-microsoft/Elixir%20CI?label=build&style=flat-square)
-[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/elixir-auth-microsoft/master.svg?style=flat-square)](http://codecov.io/github/dwyl/elixir-auth-microsoft?branch=main)
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/elixir-auth-microsoft/main.svg?style=flat-square)](http://codecov.io/github/dwyl/elixir-auth-microsoft?branch=main)
 [![Hex.pm](https://img.shields.io/hexpm/v/elixir_auth_microsoft?color=brightgreen&style=flat-square)](https://hex.pm/packages/elixir_auth_microsoft)
 [![HitCount](http://hits.dwyl.com/dwyl/elixir-auth-microsoft.svg)](http://hits.dwyl.com/dwyl/elixir-auth-microsoft)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/elixir-auth-microsoft/issues)
