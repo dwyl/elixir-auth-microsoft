@@ -247,18 +247,7 @@ get "/auth/microsoft/callback", MicrosoftAuthController, :index
 
 With all that hooked up you should now have everything working.
 
-## 7. Complete Working Demo / Example `Phoenix` App 🚀
-
-If you get stuck 
-or need a more in-depth / real-world implementation,
-we've created a guide that takes you step-by-step 
-through creating a `Phoenix` app with
-Microsoft authentication.
-
-Please see: 
-[/**demo**/README.md](/demo/README.md).
-
-# _Done_! 🎉
+## _Done_! 🎉
 
 The home page of the app 
 should now have a big 
@@ -299,6 +288,20 @@ so that we know! ⭐
 Thank you! 🙏 
 
 <br />
+
+## Complete Working Demo / Example `Phoenix` App 🚀
+
+If you get stuck 
+or need a more in-depth / real-world implementation,
+we've created a guide that takes you step-by-step 
+through creating a `Phoenix` app with
+Microsoft authentication.
+
+Please see: 
+[/**demo**/README.md](/demo/README.md).
+
+<br />
+
 
 ## Optimised SVG + CSS Button
 
