@@ -26,3 +26,15 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# Deps
+Deps
+
+# Misc
+.DS_Store
+_build
+.elixir_ls
+
+cover/
+
+.vscode/
