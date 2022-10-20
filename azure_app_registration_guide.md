@@ -164,14 +164,12 @@ Add a descriptive label and expiration time:
 ![azure-ad-client-secret-name-and-expiration](https://user-images.githubusercontent.com/194400/196692905-8e74ebce-7485-4f5f-87e4-1547f4d1d0d1.png)
 
 This will create a new secret. 
-
-Copy this secret immediatly because 
-if you leave and rejoin the page, 
-it will be censored (lost forever!).
+You want to copy the ***Value***
+to use as the `MICROSOFT_CLIENT_SECRET`
 
 ![azure-ad-copy-client-secret](https://user-images.githubusercontent.com/194400/196693504-56a3cd9c-fa22-4170-acba-f1877c7ff5fd.png)
 
-Save the values to an `.env` file.
+Save two secrets to an `.env` file.
 e.g:
 ```sh
 export MICROSOFT_CLIENT_SECRET=rDq8Q~.uc-237FryAt-lGu7G1sQkKR
@@ -181,7 +179,8 @@ export MICROSOFT_CLIENT_ID=a3d22eeb-85aa-4650-8ee8-3383931
 > **Note**: Don't worry, these aren't valid/real. 
 > They are just for illustration.
 
-The `MICROSOFT_CLIENT_ID` was visible at the end of step 3.
+The `MICROSOFT_CLIENT_ID` was visible at the end of step 3
+as "Application (client) ID" on the Overview page.
 
 # 5 - Congratulations! 🎉
 
