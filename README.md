@@ -17,10 +17,7 @@ Just plug-and-play in **5 mins**.
 [![HitCount](http://hits.dwyl.com/dwyl/elixir-auth-microsoft.svg)](http://hits.dwyl.com/dwyl/elixir-auth-microsoft)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/elixir-auth-microsoft/issues)
 
-
-
 </div>
-
 
 # _Why_? 🤷
 
@@ -46,29 +43,30 @@ by having sensible defaults for all settings.
 
 
 > We built a lightweight solution
-that only does _one_ thing
-and is easy for complete beginners to understand/use. <br />
+that does **_one_ thing**
+and is _easy_ for complete beginners to understand/use. <br />
 There were already a few available options
-for adding Microsoft Auth to apps on
-[hex.pm/packages?search=microsoft](https://hex.pm/packages?search=microsoft).<br />
+for adding Microsoft Auth on
+[**hex.pm**/packages?**search=microsoft**](https://hex.pm/packages?search=microsoft). 
 Most of these are not specific to Azure AD or build upon other auth packages
 that have much more implementation steps and complexity. 
 **Complexity == Cost**. 💸
 Both to onboard new devs and maintain your app when there are updates. </br>
-This package is the simplest implementation we could make 
-and has both **step-by-step setup instructions**
-and a **_complete_ working example** App.
+This package is the simplest implementation we could conceive. 
+It has _both_ **step-by-step setup instructions**
+and a **_complete_ working example `Phoenix` App**.
 See: 
 [**/demo**](https://github.com/dwyl/elixir-auth-microsoft/blob/main/demo)
 
 
 # _Who_? 👥
 
-This module is for people building apps using **`Elixir`** / **`Phoenix`**
-who want to ship the "Sign-in with Microsoft" feature _faster_
+This module is for people building apps 
+using **`Elixir`** / **`Phoenix`**
+who want to ship the "**Sign-in with Microsoft**" feature _much faster_
 and more maintainably.
 
-It's targetted at _complete_ beginners
+It's targetted at **_complete_ beginners**
 with no prior experience/knowledge
 of auth "schemes" or "strategies". <br />
 Just follow the detailed instructions
@@ -104,26 +102,26 @@ to _download_ the dependencies.
 ## 2. Create an App Registration in Azure Active Directory 🆕
 
 Create an App in Azure Active Directory 
-if you already don't have one. 
+if you already don't have one. <br/>
 You need this to generate
 OAuth2 credentials for the appication. 
 
-These credentials will be saved as environment variables
-and accessed by your app. You can optionally put them 
-in your config file, if it's more convenient.
+The Azure AD credentials 
+can _either_ be saved as environment variables
+or stored in a config file if you prefer.
 
 > **Note**: There are a few steps for creating your
-Azure App Registration and respective credentials.
+Azure App Registration and respective credentials. <br />
 We created the following 
 [`azure_app_registration_guide.md`](https://github.com/dwyl/elixir-auth-microsoft/blob/main/azure_app_registration_guide.md)
 to make it quick and painless.<br />
 Don't be intimidated by all the buzz-words;
-it's quite straightforward.
-And if you get stuck, 
-[**get _help_!**](https://github.com/dwyl/elixir-auth-microsoft/issues)
+it's quite straightforward. <br />
+> Once you have followed the instructions in the guide 
+you will have the two secrets you need to proceed. <br />
+> If you get stuck, 
+[**get _help_ by opening an issue on GitHub!**](https://github.com/dwyl/elixir-auth-microsoft/issues) <br />
 
-At the end of following the guide you will have 
-the two secrets you need to proceed.
 
 ## 3. Export Environment / Application Variables
 
@@ -155,9 +153,10 @@ config :elixir_auth_microsoft,
 See: https://hexdocs.pm/phoenix/deployment.html#handling-of-your-application-secrets
 
 The `MICROSOFT_SCOPES_LIST` or `scopes` are **optional**, 
-and they default to the user `profile`. 
+and they default to the user `profile`. <br />
 For the scopes available, see:
 [learn.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent](https://hexdocs.pm/phoenix/deployment.html#handling-of-your-application-secrets)
+
 Remember that the scopes you request 
 are only given permission dependending 
 on what you set in the App Registration 
@@ -166,19 +165,104 @@ Find more information in the
 [`azure_app_registration_guide.md`](https://github.com/dwyl/elixir-auth-microsoft/blob/main/azure_app_registration_guide.md)
 
 
-## 4. Follow the demo guide 📝
+## 4. Add a "Sign in with Microsoft" Button to your App
 
-For a more in-depth / real-world implementation,
+Add a "Sign in with Microsoft" 
+to the template 
+where you want to display it:
+
+```html
+<a href={@oauth_microsoft_url}>
+  <img src="https://learn.microsoft.com/en-us/azure/active-directory/develop/media/howto-add-branding-in-azure-ad-apps/ms-symbollockup_signin_light.png" alt="Sign in with Microsoft" />
+</a>
+```
+
+To enable this button you need to 
+generate the valid signin URL in the controller 
+that is responsible for this page
+using
+`ElixirAuthMicrosoft.generate_oauth_url_authorize/2`
+
+e.g:
+
+```elixir
+def index(conn, _params) do
+  oauth_microsoft_url = ElixirAuthMicrosoft.generate_oauth_url_authorize(conn, "random_uuid_here")
+  render(conn, "index.html",[oauth_microsoft_url: oauth_microsoft_url])
+end
+```
+
+> **Note**: this is covered in the 
+[/**demo**/README.md](/demo/README.md).
+
+## 5. Use the Built-in Functions to Authenticate People :shipit: 
+
+Once you have the necessary environment or config variables
+in your `Elixir`/`Phoenix` App, 
+use the 
+`ElixirAuthMicrosoft.get_token/2` 
+and 
+` ElixirAuthMicrosoft.get_user_profile`
+functions to handle authentication.
+
+Sample controller code:
+
+```elixir
+defmodule AppWeb.MicrosoftAuthController do
+  use AppWeb, :controller
+
+  @doc """
+  `index/2` handles the callback from Google Auth API redirect.
+  """
+  def index(conn, %{"code" => code, "state" => state}) do
+
+    # Perform state change here (to prevent CSRF)
+    if state !== "random_state_uid" do
+      # error handling
+    end
+
+    {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
+    {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
+
+    conn
+    |> put_view(AppWeb.PageView)
+    |> render(:welcome, profile: profile)
+  end
+end
+```
+
+The exact controller code implementation is up to you,
+but we have provided a working example.
+
+## 6. Add the `/auth/microsoft/callback` to `router.ex`
+
+Open your `lib/app_web/router.ex` file
+and locate the section that looks like `scope "/", AppWeb do`
+
+Add the following line:
+
+```elixir
+get "/auth/microsoft/callback", MicrosoftAuthController, :index
+```
+
+With all that hooked up you should now have everything working.
+
+## 7. Complete Working Demo / Example `Phoenix` App 🚀
+
+If you get stuck 
+or need a more in-depth / real-world implementation,
 we've created a guide that takes you step-by-step 
 through creating a `Phoenix` app with
 Microsoft authentication.
 
-Please, do check the guide: 
+Please see: 
 [/**demo**/README.md](/demo/README.md).
 
-# _Done_! 🚀
+# _Done_! 🎉
 
-The home page of the app now should have a big "Sign in with Microsoft" button:
+The home page of the app 
+should now have a big 
+"Sign in with Microsoft" button:
 
 ![elixir-auth-microsoft-demo](https://user-images.githubusercontent.com/194400/196782404-0918edf9-65e1-4a4d-b676-31bd10b8cd42.png)
 
