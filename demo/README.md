@@ -1,74 +1,89 @@
+<div align="center">
+
 # `elixir-auth-microsoft` _demo_
 
-This is a basic demo example of how one can use Microsoft Auth in a Phoenix aplication.
+A basic demo/example of how to use
+Microsoft Auth in a `Phoenix` aplication.
 
+</div>
 
 # _Why_? 🤷
 
-Learning is the cornerstone of what makes a developer.
-And when learning, it's really useful having *detailed docs*
-that explain how to get up-and-running as fast as possible.
+We love full working examples
+with step-by-step instructions.
+This demo shows you 
+how to get up-and-running as fast as possible.
 
 # _What_? 💭
 
-This small demo is a *barebones* application using the 
+A *barebones* demo/exampe `Phoenix` app using 
 [`elixir-auth-microsoft`](https://github.com/dwyl/elixir-auth-microsoft)
-to add support for "***Sign-in with Microsoft***" to any Phoenix Application.
+to add "***Sign-in with Microsoft***".
 
 # _Who_? 👥
 
-This demos is intended for people of all Elixir/Phoenix skill levels.
-Anyone who wants the "***Sign-in with Microsoft***" functionality
+This demos is intended for people of all `Elixir`/`Phoenix` skill levels.
+Anyone who wants the "***Sign-in with Microsoft***"
 without the extra steps to configure a whole auth _framework_.
 
-Following all the steps in this example should take around 10 minutes.
+Following all the steps in this example 
+should take around **10 minutes**.
 However if you get stuck, please don't suffer in silence!
-Get help by opening an issue: https://github.com/dwyl/elixir-auth-microsoft/issues
+[Open an issue](https://github.com/dwyl/elixir-auth-microsoft/issues)
 
 # _How?_ 💻
 
 ## 0. Create a New Phoenix App
 
-Create a new Phoenix project if you don't already have one.
+Create a new `Phoenix` project if you don't already have one.
 
 
-```
+```sh
 mix phx.new app --no-ecto 
 ```
+
 > We don't need a database for this demo.
 
-If prompted to install dependencies `Fetch and install dependencies? [Yn]`
+When prompted to install dependencies 
+`Fetch and install dependencies? [Yn]`
 Type `y` and hit the `[Enter]` key to install.
 
 
 Make sure that everything works before proceeding:
-```
+
+```sh
 mix test
 ```
+
 You should see:
-```
+
+```sh
 Generated app app
 ...
 
 Finished in 0.02 seconds
 3 tests, 0 failures
 ```
-The default tests pass and you know the Phoenix app is compiling.
 
-Run the web application:
+The default tests pass 
+and you know the `Phoenix` app is compiling.
 
-```
+Run the app:
+
+```sh
 mix phx.server
 ```
 
-and visit the endpoint in your web browser: http://localhost:4000/
+and visit the endpoint in your web browser: 
+http://localhost:4000/
+
 ![phoenix-default-home](https://user-images.githubusercontent.com/194400/70126043-0d174b00-1670-11ea-856e-b31e593b5844.png)
-
-
 
 ## 1. Add the `elixir_auth_microsoft` package to `mix.exs` 📦
 
-Open your `mix.exs` file and add the following line to your `deps` list:
+Open your `mix.exs` file 
+and add the following line 
+to your `deps` list:
 
 ```elixir
 def deps do
@@ -77,23 +92,24 @@ def deps do
   ]
 end
 ```
-Run the **`mix deps.get`** command to download.
 
-
+Run **`mix deps.get`** to download.
 
 ## 2. Create an App Registration in Azure Active Directory ✨
 
 If you're not sure how to proceed with Azure Portal and
-setup your Active Directory application, please follow the 
-[guide](../active_directory.md) to get your `client_id`
+setup your Active Directory application, 
+please follow the 
+[`azure_app_registration_guide.md`](https://github.com/dwyl/elixir-auth-microsoft/blob/main/azure_app_registration_guide.md)
+to get your `client_id`
 and `secret`.
 
 By the end of this step
 you should have these two environment variables defined:
 
 ```yml
-"MICROSOFT_CLIENT_SECRET": "paX8Q~_SRO9~UScMi4GTyw.oC8U_De.MiqDX~dBO",
-"MICROSOFT_CLIENT_ID" : "a00c63f7-6da6-43bd-a94f-74d36486264a"
+export MICROSOFT_CLIENT_SECRET=rDq8Q~.uc-237FryAt-lGu7G1sQkKR
+export MICROSOFT_CLIENT_ID=a3d22eeb-85aa-4650-8ee8-3383931
 ```
 
 > ⚠️ Don't worry, these keys aren't valid. 
@@ -138,19 +154,16 @@ defmodule AppWeb.MicrosoftAuthController do
 end
 ```
 
-Let's go over this code:
+Let's review this code:
+
 - Creates a one-time authentication token based on the `code` and, 
 optionally `state` sent by Microsoft after the person authenticates.
+
 - Request the account profie data from Microsoft based on
 the received `access_token`.
+
 - Render a `:welcome` view displaying some profile data
 to confirm that login with Azure was successful.
-
-
-> Note: we are placing the `welcome.html.eex` template
-in the `template/page` directory to save having to create
-any more directories and view files.
-You are free to organise your code however you prefer.
 
 ### 3.2 Create `welcome` template 📝
 
@@ -168,9 +181,17 @@ And type (_or paste_) the following code in it:
 </section>
 ```
 
+> **Note**: we are placing the
+>  `welcome.html.eex` template
+> in the `template/page` directory to save having to create
+> any more directories and view files.
+> You are free to organise your code however you prefer.
 
-The [Microsoft Graph API `get_profile`](https://learn.microsoft.com/en-us/graph/api/profile-get?view=graph-rest-beta&tabs=http)
- request returns profile data in the following format:
+
+The Microsoft Graph API 
+[`get_profile`](https://learn.microsoft.com/en-us/graph/api/profile-get?view=graph-rest-beta&tabs=http)
+request returns profile data in the following format:
+
 ```elixir
 %{
   businessPhones: [],
@@ -247,11 +268,14 @@ The home page of the app now has a big "Sign in with Microsoft" button:
 
 ![sign-in-button](https://20o8nn37v3mzb7unq3fsj61e-wpengine.netdna-ssl.com/wp-content/uploads/2021/07/Sign-in-with-Microsoft-Button.png)
 
+e.g:
+
+![elixir-auth-microsoft-demo](https://user-images.githubusercontent.com/194400/196782404-0918edf9-65e1-4a4d-b676-31bd10b8cd42.png)
 
 Once the person completes their authentication with Microsoft,
 they should see the following welcome message, 
 with your account name and display name:
 
-<img width="1306" alt="successful_login" src="https://user-images.githubusercontent.com/17494745/196441038-5cdfecbb-626e-42e0-be94-65fb9725dc19.png">
+![auth-success-welcome](https://user-images.githubusercontent.com/194400/196753288-31b1ddd3-8e4e-40e6-bf7d-35214a05c546.png)
 
 

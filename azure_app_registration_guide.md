@@ -188,4 +188,5 @@ The `MICROSOFT_CLIENT_ID` was visible at the end of step 3.
 At this point you can export these variables in your `Phoenix` app
 and everything should work. 
 
-Let us know if you get stuck. 
+See: 
+[/demo/README.md](https://github.com/dwyl/elixir-auth-microsoft/blob/main/demo/README.md)
