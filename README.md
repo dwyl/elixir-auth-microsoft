@@ -26,11 +26,10 @@ Following
 and 
 [`Github`](https://github.com/dwyl/elixir-auth-github)
 it made sense for us 
-to add "**Sign-in with _Microsoft_**"
-to add to our **`Elixir`** apps. 
+to add "**Sign-in with _Microsoft_**". <br />
 This is the package 
 we _wished_ already existed.
-Now it does. 
+Now it does!
 
 # _What_? 💭
 
@@ -61,9 +60,10 @@ See:
 
 # _Who_? 👥
 
-This module is for people building apps 
-using **`Elixir`** / **`Phoenix`**
-who want to ship the "**Sign-in with Microsoft**" feature _much faster_
+This package is for people building apps 
+with **`Elixir`** / **`Phoenix`**
+who want to add "**Sign-in with Microsoft**" 
+_much faster_
 and more maintainably.
 
 It's targetted at **_complete_ beginners**
