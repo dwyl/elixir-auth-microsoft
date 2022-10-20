@@ -12,15 +12,18 @@ needed to setup
 **Microsoft OAuth2 Authentication**
 in your **`Elixir`** / **`Phoenix`** App.
 
-This guide follows the 
+The guide follows the 
 [Official Microsoft Identity Platform docs](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app). 
-We've added some details and screenshots to the steps 
+However we've added some details and screenshots to the steps 
 to make it clear since navigating
 around Azure Portal can be confusing sometimes.
 
-This guide is checked periodically by the `@dwyl` team/community. 
-Azure has changed their UI throughout time, 
-so if anything has changed or you think some steps are missing, please 
+We check the instructions periodically 
+as we know
+Azure changes their UI throughout time ...
+If anything has changed 
+or you think some steps are missing, 
+please 
 [open an issue](https://github.com/dwyl/elixir-auth-microsoft/issues).
 
 ## 1. Open Azure Portal
@@ -41,10 +44,11 @@ The one we're using today - `Active Directory` - is
 > "_Azure Active Directory comes in **four editions**: 
 > Free, Office 365 apps, Premium P1, and Premium P2._"
 > [azure.microsoft.com/en-us/pricing/details/active-directory](https://azure.microsoft.com/en-us/pricing/details/active-directory)
+> ...
 > The gist is this: if you have an Azure account, it's free.
-> If you have Azuer "Premium" it's $6 user/month* ...
+> If you have Azuer "Premium" it's **$6 user/month** ...
 > Don't worry, you can have an **`Elixir`** App 
-> that offeres **Microsoft OAuth**
+> that offers **Microsoft OAuth**
 > for ***free***. We checked. So you don't have to worry. 
 
 After you sign up / sign in, 
@@ -65,29 +69,28 @@ https://portal.azure.com/?quickstart=true#view/Microsoft_AAD_IAM/ActiveDirectory
 > So your best bet might be to just _search_ for:
 > "Azure Active Directory"
 
-f71705f-1ccf-4d0e-bda3-5fe4f6d48c3
-
 You should see the following page. 
 In the left pane, click on `App Registrations`.
 
 ![microsoft-azure-ad-2](https://user-images.githubusercontent.com/194400/196680575-907080b6-5955-4772-87c6-0ec93d4bc364.png)
 
-Now click on `+ New registration`. 
+Now click on **`App registration`**. 
 This should prompt you to the next step.
 
 ## 3. Create your application
 
-The "Register an application" form will be displayed.
- Name your application whatever you want. 
+The "Register an application" form will be displayed. <br />
+ Name your application whatever you want. <br />
 We called ours: 
-`"elixir-auth-microsoft-demo"`.
+`"elixir-auth-microsoft-demo"`
+for illustration.
 
 ![microsoft-azure-register-new-application-3](https://user-images.githubusercontent.com/194400/196683621-74ee9b89-8867-485f-bd79-e787d865a0c9.png)
 
 
 On `Supporter account type`, 
-choose the one that is most appropriate to your situation. 
-However, if you're just trying out as a personal developer, choose the third one.
+choose the one that is most appropriate to your situation. <br />
+If you're just trying out as a personal developer, choose the **third option**.
 
 If you want to allow personal Hotmail/Outlook/XBox accounts,
 chose one that includes
@@ -98,11 +101,13 @@ add `http://localhost:4000`
 (the URI of your Phoenix application).
 You can edit this setting later on, so don't worry.
 
-Click the **`Register`** button 
-and you will see your newly created app:
+Once you click the **`Register` button**,
+you will see your newly created app:
 
 ![azure-ad-app-3](https://user-images.githubusercontent.com/194400/196684414-17f938de-5c31-47e8-9771-255a7ef72e3e.png)
 
+Copy the **`Application (client) ID`**
+and save it in your editor for later.
 
 # 4. Changing Settings
 
@@ -178,14 +183,16 @@ export MICROSOFT_CLIENT_ID=a3d22eeb-85aa-4650-8ee8-3383931
 
 > **Note**: Don't worry, these aren't valid/real. 
 > They are just for illustration.
+> _Never_ share your keys/secrets! 🤐
 
 The `MICROSOFT_CLIENT_ID` was visible at the end of step 3
 as "Application (client) ID" on the Overview page.
 
-# 5 - Congratulations! 🎉
+# 5 - All Set! 🎉
 
 At this point you can export these variables in your `Phoenix` app
 and everything should work. 
 
-See: 
-[/demo/README.md](https://github.com/dwyl/elixir-auth-microsoft/blob/main/demo/README.md)
+Head back to the main 
+[`README.md`](https://github.com/dwyl/elixir-auth-microsoft/blob/main/README.md)
+for the next steps.
