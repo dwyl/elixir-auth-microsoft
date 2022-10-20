@@ -4,7 +4,7 @@ defmodule ElixirAuthMicrosoft.MixProject do
   def project do
     [
       app: :elixir_auth_microsoft,
-      version: "0.1.0",
+      version: "1.0.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -39,6 +39,11 @@ defmodule ElixirAuthMicrosoft.MixProject do
       # Testing
       {:excoveralls, "~> 0.15.0", only: [:test, :dev]},
       {:mock, "~> 0.3.7", only: :test},
+
+      # For publishing Hex.docs:
+      {:ex_doc, "~> 0.28.2", only: :dev},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false}
     ]
   end
 

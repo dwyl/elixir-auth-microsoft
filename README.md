@@ -90,7 +90,7 @@ Add a line for **`:elixir_auth_microsoft`** in the **`deps`** list:
 ```elixir
 def deps do
   [
-    {:elixir_auth_microsoft, "~> 0.1.0"}
+    {:elixir_auth_microsoft, "~> 1.0.0"}
   ]
 end
 ```
