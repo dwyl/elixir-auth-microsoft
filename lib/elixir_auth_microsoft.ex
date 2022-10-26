@@ -6,10 +6,10 @@ defmodule ElixirAuthMicrosoft do
   """
 
   @default_authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
+  @default_token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+  @default_profile_url "https://graph.microsoft.com/v1.0/me"
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
-  @profile_url "https://graph.microsoft.com/v1.0/me"
-  @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 
   @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) && ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
 
@@ -36,7 +36,7 @@ defmodule ElixirAuthMicrosoft do
     }
 
     params = URI.encode_query(query, :rfc3986)
-    "#{authorize_url()}?&#{params}"
+    "#{microsoft_authorize_url()}?&#{params}"
   end
 
   @doc """
@@ -67,8 +67,8 @@ defmodule ElixirAuthMicrosoft do
       {"client_secret", microsoft_client_secret()}
     ]
 
-    http().post(@token_url, {:multipart, body}, headers)
-    |>parse_body_response()
+    http().post(microsoft_token_url(), {:multipart, body}, headers)
+    |> parse_body_response()
 
   end
 
@@ -79,7 +79,7 @@ defmodule ElixirAuthMicrosoft do
   def get_user_profile(token) do
     headers = ["Authorization": "Bearer #{token}", "Content-Type": "application/json"]
 
-    http().get(@profile_url, headers)
+    http().get(microsoft_profile_url(), headers)
     |> parse_body_response()
 
   end
@@ -121,8 +121,16 @@ defmodule ElixirAuthMicrosoft do
     System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_id)
   end
 
-  defp authorize_url do
+  defp microsoft_authorize_url do
     System.get_env("MICROSOFT_AUTHORIZE_URL") || Application.get_env(:elixir_auth_microsoft, :authorize_url) || @default_authorize_url
+  end
+
+  defp microsoft_profile_url do
+    System.get_env("MICROSOFT_PROFILE_URL") || Application.get_env(:elixir_auth_microsoft, :profile_url) || @default_profile_url
+  end
+
+  defp microsoft_token_url do
+    System.get_env("MICROSOFT_TOKEN_URL") || Application.get_env(:elixir_auth_microsoft, :token_url) || @default_token_url
   end
 
   defp get_callback_path do
