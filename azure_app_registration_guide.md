@@ -96,10 +96,11 @@ If you want to allow personal Hotmail/Outlook/XBox accounts,
 chose one that includes
 **personal Microsoft accounts** .
 
-Note that if you select the first option you must also provide a custom authorize URL:
+Note that if you select the first option you must also provide a custom authorize and token URLs:
 
 ```sh
 export MICROSOFT_AUTHORIZE_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize
+export MICROSOFT_TOKEN_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/token
 ```
 
 You can find `<your_tenant_id>` as "Directory (tenant) ID" 

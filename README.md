@@ -170,8 +170,8 @@ environment variables:
 
 ```sh
 export MICROSOFT_AUTHORIZE_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize
+export MICROSOFT_TOKEN_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/token
 export MICROSOFT_PROFILE_URL=...
-export MICROSOFT_TOKEN_URL=...
 ```
 
 or alternatively change your `config/runtime.exs` file to include 
@@ -180,15 +180,16 @@ your custom endpoints
 ```elixir
 config :elixir_auth_microsoft,
   #...
-  authorize_url: "https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize"
-  token_url: ...
+  authorize_url: "https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize",
+  token_url: "https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/token",
   profile_url: ...
 ```
 
 If you are using "Accounts in this organizational directory only 
 (Default Directory only - Single tenant)" for "Supported account types" 
 in your Azure AD application setup you must override the `MICROSOFT_AUTHORIZE_URL` 
-as shown above, or else you will get an `unauthorized_client` error.
+and `MICROSOFT_TOKEN_URL` environment variables to include your tenant ID as shown 
+above, or else you will get an `unauthorized_client` error, or an `AADSTS500202` error.
 
 
 ## 4. Add a "Sign in with Microsoft" Button to your App
