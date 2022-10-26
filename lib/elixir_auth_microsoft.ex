@@ -5,7 +5,7 @@ defmodule ElixirAuthMicrosoft do
   Offers simple access to tokens and basic user profile info.
   """
 
-  @authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
+  @default_authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
   @profile_url "https://graph.microsoft.com/v1.0/me"
@@ -36,7 +36,7 @@ defmodule ElixirAuthMicrosoft do
     }
 
     params = URI.encode_query(query, :rfc3986)
-    "#{@authorize_url}?&#{params}"
+    "#{authorize_url()}?&#{params}"
   end
 
   @doc """
@@ -119,6 +119,10 @@ defmodule ElixirAuthMicrosoft do
 
   defp microsoft_client_id do
     System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_id)
+  end
+
+  defp authorize_url do
+    System.get_env("MICROSOFT_AUTHORIZE_URL") || Application.get_env(:elixir_auth_microsoft, :authorize_url) || @default_authorize_url
   end
 
   defp get_callback_path do
