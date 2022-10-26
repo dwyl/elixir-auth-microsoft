@@ -88,13 +88,21 @@ for illustration.
 ![microsoft-azure-register-new-application-3](https://user-images.githubusercontent.com/194400/196683621-74ee9b89-8867-485f-bd79-e787d865a0c9.png)
 
 
-On `Supporter account type`, 
+On `Supported account type`, 
 choose the one that is most appropriate to your situation. <br />
 If you're just trying out as a personal developer, choose the **third option**.
 
 If you want to allow personal Hotmail/Outlook/XBox accounts,
 chose one that includes
 **personal Microsoft accounts** .
+
+Note that if you select the first option you must also provide a custom authorize URL:
+
+```sh
+export MICROSOFT_AUTHORIZE_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize
+```
+
+You can find `<your_tenant_id>` as "Directory (tenant) ID" on the app registrations overview page.
 
 For the `Redirect URI` 
 add `http://localhost:4000` 

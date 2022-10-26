@@ -164,6 +164,20 @@ in Azure Active Directory.
 Find more information in the 
 [`azure_app_registration_guide.md`](https://github.com/dwyl/elixir-auth-microsoft/blob/main/azure_app_registration_guide.md)
 
+If you need to override some of the default URL endpoints, you can use these
+environment variables:
+
+```sh
+export MICROSOFT_AUTHORIZE_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize
+export MICROSOFT_PROFILE_URL=...
+export MICROSOFT_TOKEN_URL=...
+```
+
+If you are using "Accounts in this organizational directory only 
+(Default Directory only - Single tenant)" for "Supported account types" 
+in your Azure AD application setup you must override the `MICROSOFT_AUTHORIZE_URL` 
+as shown above, or else you will get an `unauthorized_client` error.
+
 
 ## 4. Add a "Sign in with Microsoft" Button to your App
 
