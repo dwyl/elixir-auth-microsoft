@@ -164,6 +164,7 @@ in Azure Active Directory.
 Find more information in the 
 [`azure_app_registration_guide.md`](https://github.com/dwyl/elixir-auth-microsoft/blob/main/azure_app_registration_guide.md)
 
+### A note on tenants
 If you need to override some of the default URL endpoints, you can use these
 environment variables:
 
@@ -171,6 +172,17 @@ environment variables:
 export MICROSOFT_AUTHORIZE_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize
 export MICROSOFT_PROFILE_URL=...
 export MICROSOFT_TOKEN_URL=...
+```
+
+or alternatively change your `config/runtime.exs` file to include 
+your custom endpoints
+
+```elixir
+config :elixir_auth_microsoft,
+  #...
+  authorize_url: "https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize"
+  token_url: ...
+  profile_url: ...
 ```
 
 If you are using "Accounts in this organizational directory only 

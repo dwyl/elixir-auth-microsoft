@@ -102,7 +102,8 @@ Note that if you select the first option you must also provide a custom authoriz
 export MICROSOFT_AUTHORIZE_URL=https://login.microsoftonline.com/<your_tenant_id>/oauth2/v2.0/authorize
 ```
 
-You can find `<your_tenant_id>` as "Directory (tenant) ID" on the app registrations overview page.
+You can find `<your_tenant_id>` as "Directory (tenant) ID" 
+on the app registration's overview page.
 
 For the `Redirect URI` 
 add `http://localhost:4000` 
