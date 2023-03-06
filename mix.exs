@@ -37,7 +37,7 @@ defmodule ElixirAuthMicrosoft.MixProject do
       {:jason, "~> 1.2"},
 
       # Testing
-      {:excoveralls, "~> 0.15.0", only: [:test, :dev]},
+      {:excoveralls, "~> 0.16.0", only: [:test, :dev]},
       {:mock, "~> 0.3.7", only: :test},
 
       # For publishing Hex.docs:
