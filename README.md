@@ -11,7 +11,7 @@ to your **`Elixir` / `Phoenix`** app.
 So you don't have to think about it. 
 Just plug-and-play in **5 mins**.
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/elixir-auth-microsoft/Elixir%20CI?label=build&style=flat-square)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dwyl/elixir-auth-microsoft/ci.yml?label=build&style=flat-square&branch=main)](https://github.com/dwyl/elixir-auth-microsoft/actions)
 [![codecov.io](https://img.shields.io/codecov/c/github/dwyl/elixir-auth-microsoft/main.svg?style=flat-square)](https://codecov.io/github/dwyl/elixir-auth-microsoft?branch=main)
 [![Hex.pm](https://img.shields.io/hexpm/v/elixir_auth_microsoft?color=brightgreen&style=flat-square)](https://hex.pm/packages/elixir_auth_microsoft)
 [![HitCount](https://hits.dwyl.com/dwyl/elixir-auth-microsoft.svg)](https://hits.dwyl.com/dwyl/elixir-auth-microsoft)
