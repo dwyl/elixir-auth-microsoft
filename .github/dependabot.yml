@@ -10,13 +10,14 @@ updates:
   ignore:
     # ignore all patch updates in dev dependencies.
     # Check github.com/dwyl/technology-stack/issues/126.
-    - dependency-name: "credo"
-      update-types: ["version-update:semver-patch"]
     - dependency-name: "ex_doc"
       update-types: ["version-update:semver-patch"]
-    - dependency-name: "floki"
+    - dependency-name: "credo"
+      update-types: ["version-update:semver-patch"]
+    - dependency-name: "dialyxir"
       update-types: ["version-update:semver-patch"]
     - dependency-name: "excoveralls"
       update-types: ["version-update:semver-patch"]
     - dependency-name: "mock"
       update-types: ["version-update:semver-patch"]
+      
