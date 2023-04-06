@@ -158,7 +158,7 @@ For the scopes available, see:
 [learn.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent](https://hexdocs.pm/phoenix/deployment.html#handling-of-your-application-secrets)
 
 Remember that the scopes you request 
-are only given permission dependending 
+are only given permission depending 
 on what you set in the App Registration 
 in Azure Active Directory.
 Find more information in the 
@@ -191,6 +191,16 @@ in your Azure AD application setup you must override the `MICROSOFT_AUTHORIZE_UR
 and `MICROSOFT_TOKEN_URL` environment variables to include your tenant ID as shown 
 above, or else you will get an `unauthorized_client` error, or an `AADSTS500202` error.
 
+> **Warning**
+>
+> If you don't override the `authorize_url` and `token_url` parameters
+> *and* have the app registration open for users,
+> you *may* encounter an error:
+>
+> `ErrorInsufficientPermissionsInAccessToken - "Exception of type 'Microsoft.Fast.Profile.Core.Exception.ProfileAccessDeniedException' was thrown."`
+>
+> If this occurs, you need to override the `authorize_url` and `token_url`
+> with your `tenant_id`, as shown above.
 
 ## 4. Add a "Sign in with Microsoft" Button to your App
 
