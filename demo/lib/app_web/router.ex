@@ -18,6 +18,7 @@ defmodule AppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/welcome", PageController, :welcome
     get "/auth/microsoft/callback", MicrosoftAuthController, :index
   end
 

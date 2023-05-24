@@ -279,3 +279,99 @@ with your account name and display name:
 ![auth-success-welcome](https://user-images.githubusercontent.com/194400/196753288-31b1ddd3-8e4e-40e6-bf7d-35214a05c546.png)
 
 
+## 6 Maintaining the token in session
+
+Currently, if you refresh the page,
+the token is not persisted 
+and you lose your "logged in" status.
+
+To fix this,
+we are going to put the retrieved token
+in the `conn` session.
+
+Firstly, let's change the 
+"app" page to its own.
+Go to `lib/app_web/router.ex`
+and add the following route
+in the `scope "/"`.
+
+```elixir
+scope "/", AppWeb do
+  pipe_through :browser
+
+  get "/", PageController, :index
+  get "/welcome", PageController, :welcome   # add this one
+  get "/auth/microsoft/callback", MicrosoftAuthController, :index
+end
+```
+
+We're going to make the person 
+redirect to `/welcome` after successful login.
+Go to `lib/app_web/controllers/page_controller.ex`
+and add the following function.
+
+```elixir
+  def welcome(conn, _params) do
+
+    # Check if there's a session token
+    case conn |> get_session(:token) do
+
+      # If not, we redirect the person to the login page
+      nil ->
+        conn |> redirect(to: "/")
+
+      # If there's a token, we render the welcome page
+      token ->
+        {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
+
+        conn
+        |> put_view(AppWeb.PageView)
+        |> render(:welcome, profile: profile)
+    end
+  end
+```
+
+We are using the 
+[`get_session`](https://hexdocs.pm/plug/Plug.Conn.html#get_session/2)
+to retrieve the `token` from the session.
+We've *yet* to place it there in the first place,
+but don't worry, we'll do it next!
+If no `token` is found,
+we redirect the person to the homepage to login.
+If it is, we render the page normally!
+
+Now let's put the `token` in the session
+after the person logs in successfully.
+
+In `lib/app_web/controllers/microsoft_auth_controller.ex`,
+change the `index` function to the following:
+
+```elixir
+  def index(conn, %{"code" => code, "state" => state}) do
+
+    # Perform state change here (to prevent CSRF)
+    if state !== "random_state_uid" do
+      # error handling
+    end
+
+    {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
+
+
+    conn
+    |> put_session(:token, token)
+    |> redirect(to: "/welcome")
+  end
+```
+
+We are simply using the
+[`put_session`](https://hexdocs.pm/plug/Plug.Conn.html#put_session/3)
+function to persist the token within the connection session
+to later be retrieved by the page
+after successful login.
+The person is redirected to the `/welcome` page
+we've defined earlier if they manage to login.
+
+And that's it!
+If you refresh the `/welcome` page,
+the token won't be lost! 🎉
+

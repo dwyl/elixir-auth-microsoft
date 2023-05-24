@@ -12,10 +12,9 @@ defmodule AppWeb.MicrosoftAuthController do
     end
 
     {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
-    {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
 
     conn
-    |> put_view(AppWeb.PageView)
-    |> render(:welcome, profile: profile)
+    |> put_session(:token, token)
+    |> redirect(to: "/welcome")
   end
 end
