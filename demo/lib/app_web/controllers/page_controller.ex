@@ -23,7 +23,7 @@ defmodule AppWeb.PageController do
 
         conn
         |> put_view(AppWeb.PageView)
-        |> render(:welcome, profile: profile)
+        |> render(:welcome, %{profile: profile, logout_microsoft_url: ElixirAuthMicrosoft.generate_oauth_url_logout()})
     end
   end
 end

@@ -279,7 +279,7 @@ with your account name and display name:
 ![auth-success-welcome](https://user-images.githubusercontent.com/194400/196753288-31b1ddd3-8e4e-40e6-bf7d-35214a05c546.png)
 
 
-## 6 Maintaining the token in session
+## 6. Maintaining the token in session
 
 Currently, if you refresh the page,
 the token is not persisted 
@@ -375,3 +375,151 @@ And that's it!
 If you refresh the `/welcome` page,
 the token won't be lost! 🎉
 
+## 7. Logging out
+
+The person can log in.
+We should let them *log out*.
+
+The process of logging out is quite simple:
+
+1. the person clicks on the `Sign Out` button.
+2. they are redirected to Microsoft's website
+to end their account's session.
+3. after successfully logging out, 
+the person is redirected to a `post-logout redirect URI`.
+
+For this, 
+we are going to define a **post-logout redirect URI**
+as part of our app's config.
+We can do this by setting the 
+`MICROSOFT_POST_LOGOUT_REDIRECT_URI` variable.
+
+Let's set the value to 
+`http://localhost:4000/auth/microsoft/logout`.
+
+```
+export MICROSOFT_POST_LOGOUT_REDIRECT_URI=http://localhost:4000/auth/microsoft/logout
+```
+
+In addition to this,
+we are going to need to define this in 
+the `App Registration` in Azure of our app.
+If you navigate to the app's App Registration
+and to the `Authentication` tab,
+we add the `post-logout redirect URI` to the
+`Redirect URIs` form.
+
+<img width="1260" alt="add_azure" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/07f04dab-f48d-4c36-89dc-e8c70f4eaa02">
+
+
+## 7.1 Add the post-logout redirect URI to `router.ex`
+
+We need to define our post-logout page in our application.
+For this, open `lib/app_web/router.ex`
+and add the following line to the scope.
+
+```elixir
+  scope "/", AppWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/welcome", PageController, :welcome
+    get "/auth/microsoft/callback", MicrosoftAuthController, :index
+    get "/auth/microsoft/logout", MicrosoftAuthController, :logout   # add this
+  end
+```
+
+Let's add the `logout` function
+to `lib/app_web/controllers/microsoft_auth_controller.ex`.
+This will handle the behaviour once the person
+is redirected from the `Microsoft` page
+after logging out.
+
+Open the file and add the following function:
+
+```elixir
+  def logout(conn, _params) do
+
+    # Clears token from user session
+    conn = conn |> delete_session(:token)
+
+    conn
+    |> redirect(to: "/")
+  end
+```
+
+We are simply clearing the person's session
+and redirecting them to the homepage
+(so they can log in again, if they wish to).
+
+
+## 7.2 Adding button so the person logs out
+
+All there's left to do is 
+*adding the sign out button* so the person
+can log out.
+
+Inside `lib/app_web/templates/page/welcome.html.heex`,
+add the button.
+
+```html
+  <a href={@logout_microsoft_url}>
+    <button type="button" class="rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">Sign Out</button>
+  </a>
+```
+
+We are using the `@logout_microsoft_url` connection assign.
+We need to define this connection assign
+inside `lib/app_web/controllers/page_controller.ex`.
+
+```elixir
+  def welcome(conn, _params) do
+    case conn |> get_session(:token) do
+
+      nil ->
+        conn |> redirect(to: "/")
+
+      token ->
+        {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
+
+        conn
+        |> put_view(AppWeb.PageView)
+        |> render(:welcome, %{profile: profile, logout_microsoft_url: ElixirAuthMicrosoft.generate_oauth_url_logout()})   # change here
+    end
+  end
+```
+
+We are using the `generate_oauth_url_logout` library function
+to create the *logout URI* that the person is redirected into
+after clicking the button.
+We use this value to assign it to the `conn` object with key `logout_microsoft_url`.
+
+
+## 7.3 And you're done!
+
+Hurray! 🎉
+
+We've just added log out capabilities to the app!
+Now the person will be prompted with a `Sign Out` button.
+
+<img width="1083" alt="sign_out" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/d8ece404-e943-4691-afed-40d922ede6a7">
+
+Once they click the button,
+they're redirected to the `Microsoft` page
+to end the account's session on their identity server.
+
+<img width="1083" alt="microsoft" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/dedcd5f0-7233-4381-ad26-14398922f611">
+
+After they click the button,
+depending on whether or not a
+*post-logout redirect URI* was defined,
+the person is redirected back to the homepage
+(if it was defined)
+or shown the following screen if not.
+
+<img width="1083" alt="not_defined_screen" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/0dd2c277-a08a-4770-8fa2-74549d56715c">
+
+
+Awesome!
+We've successfully logged out of our application
+*and* from Microsoft's server 😃.

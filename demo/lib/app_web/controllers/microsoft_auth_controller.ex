@@ -2,7 +2,7 @@ defmodule AppWeb.MicrosoftAuthController do
   use AppWeb, :controller
 
   @doc """
-  `index/2` handles the callback from Google Auth API redirect.
+  `index/2` handles the callback from Microsoft Auth API redirect.
   """
   def index(conn, %{"code" => code, "state" => state}) do
 
@@ -16,5 +16,17 @@ defmodule AppWeb.MicrosoftAuthController do
     conn
     |> put_session(:token, token)
     |> redirect(to: "/welcome")
+  end
+
+  @doc """
+  `logout/2` handles the callback from Microsoft Auth API redirect after user logs out.
+  """
+  def logout(conn, _params) do
+
+    # Clears token from user session
+    conn = conn |> delete_session(:token)
+
+    conn
+    |> redirect(to: "/")
   end
 end
