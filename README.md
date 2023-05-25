@@ -249,7 +249,7 @@ defmodule AppWeb.MicrosoftAuthController do
   use AppWeb, :controller
 
   @doc """
-  `index/2` handles the callback from Google Auth API redirect.
+  `index/2` handles the callback from Microsoft Auth API redirect.
   """
   def index(conn, %{"code" => code, "state" => state}) do
 
@@ -343,7 +343,7 @@ you need to:
 <img width="1260" alt="add_azure" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/07f04dab-f48d-4c36-89dc-e8c70f4eaa02">
 
 
-- optionally define the redirect URI the person will be redirected to
+- optionally, define the `redirect URI` the person will be redirected to
 after successfully logging out. 
 This can be the homepage of your application, for example.
 If this is not set, no redirection occurs.
@@ -351,12 +351,12 @@ If this is not set, no redirection occurs.
 because it will clear the person's session data locally.
 
 
-### 7.1 Setting up post logout redirect URI
+### 7.1 Setting up the post-logout redirect URI
 
 So, for this,
 you need to set the `MICROSOFT_POST_LOGOUT_REDIRECT_URI` env variable
 (or add it to the `:post_logout_redirect_uri` parameter 
-in the apps `config`).
+in the app's `config`).
 
 ```
 export MICROSOFT_POST_LOGOUT_REDIRECT_URI=http://localhost:4000/auth/microsoft/logout
@@ -379,9 +379,6 @@ And then define the behaviour inside your
 `MicrosoftAuthController`.
 
 ```elixir
-  @doc """
-  `logout/2` handles the callback from Microsoft Auth API redirect after user logs out.
-  """
   def logout(conn, _params) do
 
     # Clears token from user session

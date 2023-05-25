@@ -392,10 +392,11 @@ For this,
 we are going to define a **post-logout redirect URI**
 as part of our app's config.
 We can do this by setting the 
-`MICROSOFT_POST_LOGOUT_REDIRECT_URI` variable.
+`MICROSOFT_POST_LOGOUT_REDIRECT_URI` env variable.
 
-Let's set the value to 
+Let's set its value to 
 `http://localhost:4000/auth/microsoft/logout`.
+Add this to your `.env` file.
 
 ```
 export MICROSOFT_POST_LOGOUT_REDIRECT_URI=http://localhost:4000/auth/microsoft/logout
@@ -411,6 +412,8 @@ we add the `post-logout redirect URI` to the
 
 <img width="1260" alt="add_azure" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/07f04dab-f48d-4c36-89dc-e8c70f4eaa02">
 
+You'll need to run `source .env`
+so the terminal has access to the newly set env variable.
 
 ## 7.1 Add the post-logout redirect URI to `router.ex`
 
@@ -453,7 +456,7 @@ and redirecting them to the homepage
 (so they can log in again, if they wish to).
 
 
-## 7.2 Adding button so the person logs out
+## 7.2 Adding a button so the person logs out
 
 All there's left to do is 
 *adding the sign out button* so the person
@@ -510,11 +513,10 @@ to end the account's session on their identity server.
 
 <img width="1083" alt="microsoft" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/dedcd5f0-7233-4381-ad26-14398922f611">
 
-After they click the button,
+After they click the account they wish to sign out from,
 depending on whether or not a
 *post-logout redirect URI* was defined,
-the person is redirected back to the homepage
-(if it was defined)
+the person is redirected back to the homepage,
 or shown the following screen if not.
 
 <img width="1083" alt="not_defined_screen" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/0dd2c277-a08a-4770-8fa2-74549d56715c">
