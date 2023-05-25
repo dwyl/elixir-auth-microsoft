@@ -284,7 +284,7 @@ get "/auth/microsoft/callback", MicrosoftAuthController, :index
 
 With all that hooked up you should now have everything working.
 
-## _Done_! 🎉
+### 6.1 Give it a try!
 
 The home page of the app 
 should now have a big 
@@ -310,19 +310,6 @@ After this, they will be shown the following page
 after successful login:
 
 ![auth-success-welcome](https://user-images.githubusercontent.com/194400/196753288-31b1ddd3-8e4e-40e6-bf7d-35214a05c546.png)
-
-
-That's it!
-You can chose to do whatever you want after this point.
-If you have any questions or get stuck,
-please 
-[open an issue](https://github.com/dwyl/elixir-auth-microsoft/issues). 💬
-
-If you find this package/repo _useful_,
-please star on GitHub, 
-so that we know! ⭐ 
-
-Thank you! 🙏 
 
 
 ## 7. Logging the person out
@@ -399,6 +386,20 @@ all you need to do is use the
 `ElixirAuthMicrosoft.generate_oauth_url_logout()` function
 to generate the link the person should be redirected to
 after clicking the `Sign Out` button.
+
+## _Done_! 
+
+That's it!
+You can chose to do whatever you want after this point.
+If you have any questions or get stuck,
+please 
+[open an issue](https://github.com/dwyl/elixir-auth-microsoft/issues). 💬
+
+If you find this package/repo _useful_,
+please star on GitHub, 
+so that we know! ⭐ 
+
+Thank you! 🙏 
 
 <br />
 
