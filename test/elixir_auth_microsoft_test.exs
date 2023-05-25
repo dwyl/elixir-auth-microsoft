@@ -44,6 +44,26 @@ defmodule ElixirAuthMicrosoftTest do
     assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn) == expected
   end
 
+    # Tests the generated OAuth URL of logout
+    test "generate_oauth_url_logout() for dev/localhost " do
+      conn = %{
+        host: "localhost",
+        port: 4000
+      }
+
+      logout_url = System.get_env("MICROSOFT_POST_LOGOUT_REDIRECT_URI")
+      logout_url_from_config = Application.get_env(:elixir_auth_microsoft, :post_logout_redirect_uri)
+
+      assert logout_url == logout_url_from_config
+
+      expected_redirect_uri = URI.encode_www_form("http://localhost:4000/auth/microsoft/logout")
+
+      expected =
+        "https://login.microsoftonline.com/common/oauth2/v2.0/logout?&post_logout_redirect_uri=" <> expected_redirect_uri
+
+      assert ElixirAuthMicrosoft.generate_oauth_url_logout() == expected
+    end
+
   # Tests fetching the token by passing a certain token.
   test "get_token" do
     conn = %{
