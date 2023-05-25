@@ -415,7 +415,7 @@ we add the `post-logout redirect URI` to the
 You'll need to run `source .env`
 so the terminal has access to the newly set env variable.
 
-## 7.1 Add the post-logout redirect URI to `router.ex`
+### 7.1 Add the post-logout redirect URI to `router.ex`
 
 We need to define our post-logout page in our application.
 For this, open `lib/app_web/router.ex`
@@ -456,7 +456,7 @@ and redirecting them to the homepage
 (so they can log in again, if they wish to).
 
 
-## 7.2 Adding a button so the person logs out
+### 7.2 Adding a button so the person logs out
 
 All there's left to do is 
 *adding the sign out button* so the person
@@ -498,7 +498,7 @@ after clicking the button.
 We use this value to assign it to the `conn` object with key `logout_microsoft_url`.
 
 
-## 7.3 And you're done!
+### 7.3 And you're done!
 
 Hurray! 🎉
 

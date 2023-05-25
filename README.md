@@ -268,7 +268,7 @@ defmodule AppWeb.MicrosoftAuthController do
 end
 ```
 
-The exact controller code implementation is up to you,
+The exact controller code implementation is up to you,🎉
 but we have provided a working example.
 
 ## 6. Add the `/auth/microsoft/callback` to `router.ex`
