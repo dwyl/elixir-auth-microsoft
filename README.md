@@ -239,7 +239,7 @@ in your `Elixir`/`Phoenix` App,
 use the 
 `ElixirAuthMicrosoft.get_token/2` 
 and 
-` ElixirAuthMicrosoft.get_user_profile`
+`ElixirAuthMicrosoft.get_user_profile`
 functions to handle authentication.
 
 Sample controller code:
@@ -323,6 +323,85 @@ please star on GitHub,
 so that we know! ⭐ 
 
 Thank you! 🙏 
+
+
+## 7. Logging the person out
+
+The same way you can log a person in,
+you should let them logout.
+This package will do two things:
+
+- redirect the person to the `Microsoft` logout page.
+This is to end the person's session on `Microsoft`'s identity platform.
+- clear the app's cookies/session on the client.
+
+In order to add logout capabilities to your application,
+you need to:
+
+- add the **redirect URI to your Azure app registration `Redirect URIs` settings**.
+
+<img width="1260" alt="add_azure" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/07f04dab-f48d-4c36-89dc-e8c70f4eaa02">
+
+
+- optionally define the redirect URI the person will be redirected to
+after successfully logging out. 
+This can be the homepage of your application, for example.
+If this is not set, no redirection occurs.
+*However*, setting this option is **highly recommended**
+because it will clear the person's session data locally.
+
+
+### 7.1 Setting up post logout redirect URI
+
+So, for this,
+you need to set the `MICROSOFT_POST_LOGOUT_REDIRECT_URI` env variable
+(or add it to the `:post_logout_redirect_uri` parameter 
+in the apps `config`).
+
+```
+export MICROSOFT_POST_LOGOUT_REDIRECT_URI=http://localhost:4000/auth/microsoft/logout
+```
+
+Inside the `router.ex` file,
+we'll need to add the redirect URI to the scope.
+
+```elixir
+  scope "/", AppWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/auth/microsoft/callback", MicrosoftAuthController, :index
+    get "/auth/microsoft/logout", MicrosoftAuthController, :logout  # add this
+  end
+```
+
+And then define the behaviour inside your 
+`MicrosoftAuthController`.
+
+```elixir
+  @doc """
+  `logout/2` handles the callback from Microsoft Auth API redirect after user logs out.
+  """
+  def logout(conn, _params) do
+
+    # Clears token from user session
+    conn = conn |> delete_session(:token)
+
+    conn
+    |> redirect(to: "/")
+  end
+```
+
+This will delete the session locally
+*after* the person signs out from `Microsoft`.
+
+### 7.2 Add button for person to log out
+
+After this setup,
+all you need to do is use the 
+`ElixirAuthMicrosoft.generate_oauth_url_logout()` function
+to generate the link the person should be redirected to
+after clicking the `Sign Out` button.
 
 <br />
 
