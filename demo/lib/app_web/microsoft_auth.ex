@@ -1,31 +1,42 @@
 defmodule ElixirAuthMicrosoft do
-
-  @authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
-  @token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
-  @profile_url "https://graph.microsoft.com/v1.0/me"
+  @default_authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
+  @default_logout_url "https://login.microsoftonline.com/common/oauth2/v2.0/logout"
+  @default_token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+  @default_profile_url "https://graph.microsoft.com/v1.0/me"
   @default_scope "https://graph.microsoft.com/User.Read"
   @default_callback_path "/auth/microsoft/callback"
 
-  # When testing, it uses a mocked version of HTTPoison. On production, it uses the original version
   @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) && ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
-  defp http, do: @httpoison
+
+  def http, do: @httpoison
 
   def generate_oauth_url_authorize(conn) do
+
     query = %{
       client_id: microsoft_client_id(),
       response_type: "code",
       redirect_uri: generate_redirect_uri(conn),
-      scope: @default_scope,
+      scope: get_microsoft_scopes(),
       response_mode: "query"
     }
 
     params = URI.encode_query(query, :rfc3986)
-    "#{@authorize_url}?&#{params}"
+    "#{microsoft_authorize_url()}?&#{params}"
   end
 
   def generate_oauth_url_authorize(conn, state) when is_binary(state) do
     params = URI.encode_query(%{state: state}, :rfc3986)
     generate_oauth_url_authorize(conn) <> "&#{params}"
+  end
+
+  def generate_oauth_url_logout() do
+
+    query = %{
+      post_logout_redirect_uri: microsoft_post_logout_redirect_uri(),
+    }
+
+    params = URI.encode_query(query, :rfc3986)
+    "#{microsoft_logout_url()}?&#{params}"
   end
 
   def get_token(code, conn) do
@@ -37,27 +48,28 @@ defmodule ElixirAuthMicrosoft do
       {"client_id", microsoft_client_id()},
       {"redirect_uri", generate_redirect_uri(conn)},
       {"code", code},
-      {"scope", @default_scope},
+      {"scope", get_microsoft_scopes()},
       {"client_secret", microsoft_client_secret()}
     ]
 
-    http().post(@token_url, {:multipart, body}, headers)
-    |>parse_body_response()
+    http().post(microsoft_token_url(), {:multipart, body}, headers)
+    |> parse_body_response()
 
   end
 
   def get_user_profile(token) do
     headers = ["Authorization": "Bearer #{token}", "Content-Type": "application/json"]
 
-    http().get(@profile_url, headers)
+    http().get(microsoft_profile_url(), headers)
     |> parse_body_response()
 
   end
 
+
   def parse_body_response({:error, err}), do: {:error, err}
   def parse_body_response({:ok, response}) do
     body = Map.get(response, :body)
-    # make keys of map atoms for easier access in templates
+
     if body == nil do
       {:error, :no_body}
     else
@@ -72,13 +84,36 @@ defmodule ElixirAuthMicrosoft do
     get_baseurl_from_conn(conn) <> get_callback_path()
   end
 
+  defp get_microsoft_scopes do
+    System.get_env("MICROSOFT_SCOPES_LIST") || Application.get_env(:elixir_auth_microsoft, :scopes) || @default_scope
+  end
 
   defp microsoft_client_secret do
-    System.get_env("MICROSOFT_CLIENT_SECRET") || Application.get_env(:elixir_auth_microsoft, :client_id)
+    System.get_env("MICROSOFT_CLIENT_SECRET") || Application.get_env(:elixir_auth_microsoft, :client_secret)
   end
 
   defp microsoft_client_id do
-    System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_secret)
+    System.get_env("MICROSOFT_CLIENT_ID") || Application.get_env(:elixir_auth_microsoft, :client_id)
+  end
+
+  defp microsoft_authorize_url do
+    System.get_env("MICROSOFT_AUTHORIZE_URL") || Application.get_env(:elixir_auth_microsoft, :authorize_url) || @default_authorize_url
+  end
+
+  defp microsoft_logout_url do
+    System.get_env("MICROSOFT_LOGOUT_URL") || Application.get_env(:elixir_auth_microsoft, :logout_url) || @default_logout_url
+  end
+
+  defp microsoft_profile_url do
+    System.get_env("MICROSOFT_PROFILE_URL") || Application.get_env(:elixir_auth_microsoft, :profile_url) || @default_profile_url
+  end
+
+  defp microsoft_token_url do
+    System.get_env("MICROSOFT_TOKEN_URL") || Application.get_env(:elixir_auth_microsoft, :token_url) || @default_token_url
+  end
+
+  defp microsoft_post_logout_redirect_uri do
+    System.get_env("MICROSOFT_POST_LOGOUT_REDIRECT_URI") || Application.get_env(:elixir_auth_microsoft, :post_logout_redirect_uri)
   end
 
   defp get_callback_path do

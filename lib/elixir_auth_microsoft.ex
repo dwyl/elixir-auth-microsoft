@@ -6,6 +6,7 @@ defmodule ElixirAuthMicrosoft do
   """
 
   @default_authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
+  @default_logout_url "https://login.microsoftonline.com/common/oauth2/v2.0/logout"
   @default_token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
   @default_profile_url "https://graph.microsoft.com/v1.0/me"
   @default_scope "https://graph.microsoft.com/User.Read"
@@ -47,6 +48,24 @@ defmodule ElixirAuthMicrosoft do
   def generate_oauth_url_authorize(conn, state) when is_binary(state) do
     params = URI.encode_query(%{state: state}, :rfc3986)
     generate_oauth_url_authorize(conn) <> "&#{params}"
+  end
+
+
+  @doc """
+  `generate_oauth_url_logout/0` creates a logout URL.
+  This should the URL the person is redirected to when they want to logout.
+  To define the redirect URL (the URL that the user will be redirected to after successful logout from Microsoft ),
+  you need to set the `MICROSOFT_POST_LOGOUT_REDIRECT_URI` env variable
+  or `:post_logout_redirect_uri` in the config file.
+  """
+  def generate_oauth_url_logout() do
+
+    query = %{
+      post_logout_redirect_uri: microsoft_post_logout_redirect_uri(),
+    }
+
+    params = URI.encode_query(query, :rfc3986)
+    "#{microsoft_logout_url()}?&#{params}"
   end
 
   @doc """
@@ -125,12 +144,20 @@ defmodule ElixirAuthMicrosoft do
     System.get_env("MICROSOFT_AUTHORIZE_URL") || Application.get_env(:elixir_auth_microsoft, :authorize_url) || @default_authorize_url
   end
 
+  defp microsoft_logout_url do
+    System.get_env("MICROSOFT_LOGOUT_URL") || Application.get_env(:elixir_auth_microsoft, :logout_url) || @default_logout_url
+  end
+
   defp microsoft_profile_url do
     System.get_env("MICROSOFT_PROFILE_URL") || Application.get_env(:elixir_auth_microsoft, :profile_url) || @default_profile_url
   end
 
   defp microsoft_token_url do
     System.get_env("MICROSOFT_TOKEN_URL") || Application.get_env(:elixir_auth_microsoft, :token_url) || @default_token_url
+  end
+
+  defp microsoft_post_logout_redirect_uri do
+    System.get_env("MICROSOFT_POST_LOGOUT_REDIRECT_URI") || Application.get_env(:elixir_auth_microsoft, :post_logout_redirect_uri)
   end
 
   defp get_callback_path do
