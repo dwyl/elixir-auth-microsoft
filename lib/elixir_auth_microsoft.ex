@@ -164,13 +164,7 @@ defmodule ElixirAuthMicrosoft do
     System.get_env("MICROSOFT_CALLBACK_PATH") || @default_callback_path
   end
 
-
-  defp get_baseurl_from_conn(%{host: h, port: p}) when h == "localhost" do
-    "http://#{h}:#{p}"
+  defp get_baseurl_from_conn(%{scheme: s, host: h, port: p}) do
+    "#{s}://#{h}:#{p}"
   end
-
-  defp get_baseurl_from_conn(%{host: h}) do
-    "https://#{h}"
-  end
-
 end
