@@ -33,7 +33,7 @@ defmodule ElixirAuthMicrosoft.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 2.2.0"},
+      {:httpoison, "~> 1.8.0"},
       {:jason, "~> 1.2"},
 
       # Testing
