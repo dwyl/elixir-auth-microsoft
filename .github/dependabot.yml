@@ -6,20 +6,20 @@ updates:
     interval: weekly
     time: "07:00"
     timezone: Europe/London
-ignore:
+  ignore:
     # ignore all patch updates in dev dependencies ref: github.com/dwyl/technology-stack/issues/126
-  - dependency-name: "credo"
-    update-types: ["version-update:semver-patch"]
-  - dependency-name: "dialyxir"
-    update-types: ["version-update:semver-patch"]
-  - dependency-name: "excoveralls"
-    update-types: ["version-update:semver-patch"]
-  - dependency-name: "ex_doc"
-    update-types: ["version-update:semver-patch"]
-  - dependency-name: "mock"
-    update-types: ["version-update:semver-patch"]
-  # ignore ALL updates to these packages ref: github.com/dwyl/elixir-auth-microsoft/issues/45
-  - dependency-name: "httpoison"
-    update-types: ["1.x", "2.x"]
-  - dependency-name: "jason"
-    versions: ["1.x", "2.x"]
+    - dependency-name: "credo"
+      update-types: ["version-update:semver-patch"]
+    - dependency-name: "dialyxir"
+      update-types: ["version-update:semver-patch"]
+    - dependency-name: "excoveralls"
+      update-types: ["version-update:semver-patch"]
+    - dependency-name: "ex_doc"
+      update-types: ["version-update:semver-patch"]
+    - dependency-name: "mock"
+      update-types: ["version-update:semver-patch"]
+    # ignore ALL updates to these packages ref: github.com/dwyl/elixir-auth-microsoft/issues/45
+    - dependency-name: "httpoison"
+      update-types: ["1.x", "2.x"]
+    - dependency-name: "jason"
+      versions: ["1.x", "2.x"]
