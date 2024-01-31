@@ -20,6 +20,6 @@ updates:
       update-types: ["version-update:semver-patch"]
     # ignore ALL updates to these packages ref: github.com/dwyl/elixir-auth-microsoft/issues/45
     - dependency-name: "httpoison"
-      update-types: ["1.x", "2.x"]
+      update-types: ["version-update:semver-major"]
     - dependency-name: "jason"
-      versions: ["1.x", "2.x"]
+      update-types: ["version-update:semver-major"]
