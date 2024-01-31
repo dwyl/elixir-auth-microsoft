@@ -10,6 +10,8 @@ ignore:
     # ignore all patch updates in dev dependencies ref: github.com/dwyl/technology-stack/issues/126
   - dependency-name: "credo"
     update-types: ["version-update:semver-patch"]
+  - dependency-name: "dialyxir"
+    update-types: ["version-update:semver-patch"]
   - dependency-name: "excoveralls"
     update-types: ["version-update:semver-patch"]
   - dependency-name: "ex_doc"

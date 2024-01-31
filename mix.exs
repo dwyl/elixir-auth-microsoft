@@ -4,7 +4,7 @@ defmodule ElixirAuthMicrosoft.MixProject do
   def project do
     [
       app: :elixir_auth_microsoft,
-      version: "1.1.0",
+      version: "1.1.1",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -33,15 +33,15 @@ defmodule ElixirAuthMicrosoft.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.8.0"},
+      {:httpoison, "~> 2.2.0"},
       {:jason, "~> 1.2"},
 
       # Testing
-      {:excoveralls, "~> 0.15.0", only: [:test, :dev]},
+      {:excoveralls, "~> 0.18.0", only: [:test, :dev]},
       {:mock, "~> 0.3.7", only: :test},
 
       # For publishing Hex.docs:
-      {:ex_doc, "~> 0.29.0", only: :dev},
+      {:ex_doc, "~> 0.31.0", only: :dev},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false}
     ]

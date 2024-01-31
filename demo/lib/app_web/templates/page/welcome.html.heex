@@ -4,4 +4,8 @@
     with your <strong>Microsoft Account</strong> <br />
     <strong style="color:teal;"><%= @profile.userPrincipalName %></strong>
   </p>
+
+  <a href={@logout_microsoft_url}>
+    <button type="button" class="rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">Sign Out</button>
+  </a>
 </section>

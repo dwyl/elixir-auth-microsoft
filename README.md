@@ -11,10 +11,10 @@ to your **`Elixir` / `Phoenix`** app.
 So you don't have to think about it. 
 Just plug-and-play in **5 mins**.
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dwyl/elixir-auth-microsoft/Elixir%20CI?label=build&style=flat-square)
-[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/elixir-auth-microsoft/main.svg?style=flat-square)](http://codecov.io/github/dwyl/elixir-auth-microsoft?branch=main)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dwyl/elixir-auth-microsoft/ci.yml?label=build&style=flat-square&branch=main)](https://github.com/dwyl/elixir-auth-microsoft/actions)
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/elixir-auth-microsoft/main.svg?style=flat-square)](https://codecov.io/github/dwyl/elixir-auth-microsoft?branch=main)
 [![Hex.pm](https://img.shields.io/hexpm/v/elixir_auth_microsoft?color=brightgreen&style=flat-square)](https://hex.pm/packages/elixir_auth_microsoft)
-[![HitCount](http://hits.dwyl.com/dwyl/elixir-auth-microsoft.svg)](http://hits.dwyl.com/dwyl/elixir-auth-microsoft)
+[![HitCount](https://hits.dwyl.com/dwyl/elixir-auth-microsoft.svg)](https://hits.dwyl.com/dwyl/elixir-auth-microsoft)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/elixir-auth-microsoft/issues)
 
 </div>
@@ -88,7 +88,7 @@ Add a line for **`:elixir_auth_microsoft`** in the **`deps`** list:
 ```elixir
 def deps do
   [
-    {:elixir_auth_microsoft, "~> 1.0.0"}
+    {:elixir_auth_microsoft, "~> 1.1.0"}
   ]
 end
 ```
@@ -158,7 +158,7 @@ For the scopes available, see:
 [learn.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent](https://hexdocs.pm/phoenix/deployment.html#handling-of-your-application-secrets)
 
 Remember that the scopes you request 
-are only given permission dependending 
+are only given permission depending 
 on what you set in the App Registration 
 in Azure Active Directory.
 Find more information in the 
@@ -191,6 +191,16 @@ in your Azure AD application setup you must override the `MICROSOFT_AUTHORIZE_UR
 and `MICROSOFT_TOKEN_URL` environment variables to include your tenant ID as shown 
 above, or else you will get an `unauthorized_client` error, or an `AADSTS500202` error.
 
+> **Warning**
+>
+> If you don't override the `authorize_url` and `token_url` parameters
+> *and* have the app registration open for users,
+> you *may* encounter an error:
+>
+> `ErrorInsufficientPermissionsInAccessToken - "Exception of type 'Microsoft.Fast.Profile.Core.Exception.ProfileAccessDeniedException' was thrown."`
+>
+> If this occurs, you need to override the `authorize_url` and `token_url`
+> with your `tenant_id`, as shown above.
 
 ## 4. Add a "Sign in with Microsoft" Button to your App
 
@@ -229,7 +239,7 @@ in your `Elixir`/`Phoenix` App,
 use the 
 `ElixirAuthMicrosoft.get_token/2` 
 and 
-` ElixirAuthMicrosoft.get_user_profile`
+`ElixirAuthMicrosoft.get_user_profile`
 functions to handle authentication.
 
 Sample controller code:
@@ -239,7 +249,7 @@ defmodule AppWeb.MicrosoftAuthController do
   use AppWeb, :controller
 
   @doc """
-  `index/2` handles the callback from Google Auth API redirect.
+  `index/2` handles the callback from Microsoft Auth API redirect.
   """
   def index(conn, %{"code" => code, "state" => state}) do
 
@@ -258,7 +268,7 @@ defmodule AppWeb.MicrosoftAuthController do
 end
 ```
 
-The exact controller code implementation is up to you,
+The exact controller code implementation is up to you,🎉
 but we have provided a working example.
 
 ## 6. Add the `/auth/microsoft/callback` to `router.ex`
@@ -274,7 +284,7 @@ get "/auth/microsoft/callback", MicrosoftAuthController, :index
 
 With all that hooked up you should now have everything working.
 
-## _Done_! 🎉
+### 6.1 Give it a try!
 
 The home page of the app 
 should now have a big 
@@ -301,6 +311,83 @@ after successful login:
 
 ![auth-success-welcome](https://user-images.githubusercontent.com/194400/196753288-31b1ddd3-8e4e-40e6-bf7d-35214a05c546.png)
 
+
+## 7. Logging the person out
+
+The same way you can log a person in,
+you should let them logout.
+This package will do two things:
+
+- redirect the person to the `Microsoft` logout page.
+This is to end the person's session on `Microsoft`'s identity platform.
+- clear the app's cookies/session on the client.
+
+In order to add logout capabilities to your application,
+you need to:
+
+- add the **redirect URI to your Azure app registration `Redirect URIs` settings**.
+
+<img width="1260" alt="add_azure" src="https://github.com/LuchoTurtle/banger-bot/assets/17494745/07f04dab-f48d-4c36-89dc-e8c70f4eaa02">
+
+
+- optionally, define the `redirect URI` the person will be redirected to
+after successfully logging out. 
+This can be the homepage of your application, for example.
+If this is not set, no redirection occurs.
+*However*, setting this option is **highly recommended**
+because it will clear the person's session data locally.
+
+
+### 7.1 Setting up the post-logout redirect URI
+
+So, for this,
+you need to set the `MICROSOFT_POST_LOGOUT_REDIRECT_URI` env variable
+(or add it to the `:post_logout_redirect_uri` parameter 
+in the app's `config`).
+
+```
+export MICROSOFT_POST_LOGOUT_REDIRECT_URI=http://localhost:4000/auth/microsoft/logout
+```
+
+Inside the `router.ex` file,
+we'll need to add the redirect URI to the scope.
+
+```elixir
+  scope "/", AppWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/auth/microsoft/callback", MicrosoftAuthController, :index
+    get "/auth/microsoft/logout", MicrosoftAuthController, :logout  # add this
+  end
+```
+
+And then define the behaviour inside your 
+`MicrosoftAuthController`.
+
+```elixir
+  def logout(conn, _params) do
+
+    # Clears token from user session
+    conn = conn |> delete_session(:token)
+
+    conn
+    |> redirect(to: "/")
+  end
+```
+
+This will delete the session locally
+*after* the person signs out from `Microsoft`.
+
+### 7.2 Add button for person to log out
+
+After this setup,
+all you need to do is use the 
+`ElixirAuthMicrosoft.generate_oauth_url_logout()` function
+to generate the link the person should be redirected to
+after clicking the `Sign Out` button.
+
+## _Done_! 
 
 That's it!
 You can chose to do whatever you want after this point.
