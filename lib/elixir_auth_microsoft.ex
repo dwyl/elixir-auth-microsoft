@@ -28,13 +28,13 @@ defmodule ElixirAuthMicrosoft do
   @spec generate_oauth_url_authorize(Conn.t()) :: String.t()
   def generate_oauth_url_authorize(conn) do
 
-    query = %{
+    query = [
       client_id: microsoft_client_id(),
       response_type: "code",
       redirect_uri: generate_redirect_uri(conn),
       scope: get_microsoft_scopes(),
       response_mode: "query"
-    }
+    ]
 
     params = URI.encode_query(query, :rfc3986)
     "#{microsoft_authorize_url()}?&#{params}"
@@ -46,7 +46,7 @@ defmodule ElixirAuthMicrosoft do
   """
   @spec generate_oauth_url_authorize(%{:host => any, optional(any) => any}, binary) :: String.t()
   def generate_oauth_url_authorize(conn, state) when is_binary(state) do
-    params = URI.encode_query(%{state: state}, :rfc3986)
+    params = URI.encode_query([state: state], :rfc3986)
     generate_oauth_url_authorize(conn) <> "&#{params}"
   end
 
@@ -60,9 +60,9 @@ defmodule ElixirAuthMicrosoft do
   """
   def generate_oauth_url_logout() do
 
-    query = %{
+    query = [
       post_logout_redirect_uri: microsoft_post_logout_redirect_uri(),
-    }
+    ]
 
     params = URI.encode_query(query, :rfc3986)
     "#{microsoft_logout_url()}?&#{params}"
