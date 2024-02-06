@@ -34,7 +34,7 @@ defmodule ElixirAuthMicrosoft.MixProject do
   defp deps do
     [
       {:httpoison, ">= 0.6.1"},
-      {:jason, "~> 1.2"},
+      {:jason, ">= 1.0.0"},
 
       # Testing
       {:excoveralls, "~> 0.18.0", only: [:test, :dev]},
