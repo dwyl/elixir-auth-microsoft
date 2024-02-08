@@ -38,7 +38,7 @@ defmodule ElixirAuthMicrosoft.HTTPoisonMock do
 
   @doc """
   Mocks the `post/3` function from HTTPoison.
-  It yields a predictable, with always the same access token.
+  It yields a predictable result, with always the same access token.
   """
   @spec post(any, any, any) :: {:ok, %{body: binary}}
   def post(_url, _body, _headers) do

@@ -1,6 +1,6 @@
 <div align="center">
 
-# `elixir-auth-microsoft`
+<h1>elixir-auth-microsoft</h1>
 
 The _easy_ way to add **Microsoft `OAuth` authentication** 
 to your **`Elixir` / `Phoenix`** app.
@@ -18,6 +18,29 @@ Just plug-and-play in **5 mins**.
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/elixir-auth-microsoft/issues)
 
 </div>
+
+- [_Why_? 🤷](#why-)
+- [_What_? 💭](#what-)
+- [_Who_? 👥](#who-)
+- [_How_? ✅](#how-)
+  - [1. Add the hex package to `deps` 📦](#1-add-the-hex-package-to-deps-)
+  - [2. Create an App Registration in Azure Active Directory 🆕](#2-create-an-app-registration-in-azure-active-directory-)
+  - [3. Export Environment / Application Variables](#3-export-environment--application-variables)
+    - [A note on tenants](#a-note-on-tenants)
+  - [4. Add a "Sign in with Microsoft" Button to your App](#4-add-a-sign-in-with-microsoft-button-to-your-app)
+  - [5. Use the Built-in Functions to Authenticate People :shipit:](#5-use-the-built-in-functions-to-authenticate-people-shipit)
+  - [6. Add the `/auth/microsoft/callback` to `router.ex`](#6-add-the-authmicrosoftcallback-to-routerex)
+    - [6.1 Give it a try!](#61-give-it-a-try)
+  - [7. Logging the person out](#7-logging-the-person-out)
+    - [7.1 Setting up the post-logout redirect URI](#71-setting-up-the-post-logout-redirect-uri)
+    - [7.2 Add button for person to log out](#72-add-button-for-person-to-log-out)
+  - [_Done_!](#done)
+  - [Testing](#testing)
+  - [Complete Working Demo / Example `Phoenix` App 🚀](#complete-working-demo--example-phoenix-app-)
+  - [Optimised SVG + CSS Button](#optimised-svg--css-button)
+  - [Notes 📝](#notes-)
+  - [Branding Guidelines](#branding-guidelines)
+
 
 # _Why_? 🤷
 
@@ -402,6 +425,30 @@ so that we know! ⭐
 Thank you! 🙏 
 
 <br />
+
+
+## Testing 
+
+If you want pre-defined responses without making real requests
+when testing,
+you can add the following property `httpoison_mock`
+in your `test.exs` configuration file.
+
+```elixir
+config :elixir_auth_microsoft,
+  httpoison_mock: true
+```
+
+With this setting turned on, 
+calls will return successful requests 
+with mock data.
+
+Of course, you could always a mocking library like
+[`mox`](https://github.com/dashbitco/mox)
+for this. 
+But if you want a quick way to test your app with this package,
+this option may be for you!
+
 
 ## Complete Working Demo / Example `Phoenix` App 🚀
 
