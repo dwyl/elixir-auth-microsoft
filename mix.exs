@@ -33,8 +33,8 @@ defmodule ElixirAuthMicrosoft.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.8.0"},
-      {:jason, "~> 1.2"},
+      {:httpoison, ">= 0.6.1"},
+      {:jason, ">= 1.0.0"},
 
       # Testing
       {:excoveralls, "~> 0.18.0", only: [:test, :dev]},

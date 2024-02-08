@@ -19,7 +19,7 @@ defmodule ElixirAuthMicrosoftTest do
     expected_scope = URI.encode_www_form("https://graph.microsoft.com/User.Read")
 
     expected =
-      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=" <> id <> "&redirect_uri=" <> expected_redirect_uri <> "&response_mode=query&response_type=code&scope=" <> expected_scope <> "&state=" <> state
+      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=#{id}&response_type=code&redirect_uri=#{expected_redirect_uri}&scope=#{expected_scope}&response_mode=query&state=#{state}"
 
     assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn, state) == expected
   end
@@ -39,7 +39,7 @@ defmodule ElixirAuthMicrosoftTest do
     expected_scope = URI.encode_www_form("https://graph.microsoft.com/User.Read")
 
     expected =
-      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=" <> id <> "&redirect_uri=" <> expected_redirect_uri <> "&response_mode=query&response_type=code&scope=" <> expected_scope
+      "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?&client_id=#{id}&response_type=code&redirect_uri=#{expected_redirect_uri}&scope=#{expected_scope}&response_mode=query"
 
     assert ElixirAuthMicrosoft.generate_oauth_url_authorize(conn) == expected
   end
@@ -59,7 +59,7 @@ defmodule ElixirAuthMicrosoftTest do
       expected_redirect_uri = URI.encode_www_form("http://localhost:4000/auth/microsoft/logout")
 
       expected =
-        "https://login.microsoftonline.com/common/oauth2/v2.0/logout?&post_logout_redirect_uri=" <> expected_redirect_uri
+        "https://login.microsoftonline.com/common/oauth2/v2.0/logout?&post_logout_redirect_uri=#{expected_redirect_uri}"
 
       assert ElixirAuthMicrosoft.generate_oauth_url_logout() == expected
     end

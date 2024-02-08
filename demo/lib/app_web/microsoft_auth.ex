@@ -1,4 +1,8 @@
 defmodule ElixirAuthMicrosoft do
+  @moduledoc """
+  SHOULD BE THE SAME AS THE ORIGINAL `microsoft_auth.ex`.
+  """
+
   @default_authorize_url "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
   @default_logout_url "https://login.microsoftonline.com/common/oauth2/v2.0/logout"
   @default_token_url "https://login.microsoftonline.com/common/oauth2/v2.0/token"
@@ -8,8 +12,18 @@ defmodule ElixirAuthMicrosoft do
 
   @httpoison (Application.compile_env(:elixir_auth_microsoft, :httpoison_mock) && ElixirAuthMicrosoft.HTTPoisonMock) || HTTPoison
 
+  @doc """
+  `http/0` injects a TestDouble in test envs.
+  When testing, it uses a mocked version of HTTPoison with predictible results. When in production, it uses the original version.
+  """
   def http, do: @httpoison
 
+  @doc """
+  `generate_oauth_url_authorize/1` creates an OAuth2 URL with client_id, redirect_uri and scopes (be sure to create the app registration in Azure Portal AD).
+  The redirect_uri will be the URL Microsoft will redirect after successful sign-in.
+  This is the URL that you should be used in a "Login with Microsoft"-type button.
+  """
+  @spec generate_oauth_url_authorize(Conn.t()) :: String.t()
   def generate_oauth_url_authorize(conn) do
 
     query = %{
@@ -24,11 +38,24 @@ defmodule ElixirAuthMicrosoft do
     "#{microsoft_authorize_url()}?&#{params}"
   end
 
+  @doc """
+  `generate_oauth_url_authorize/2` is the same as `generate_oauth_url_authorize/1` but with a state parameter.
+  This state parameter should be compared with the one that is sent as query param in the redirect URI after the sign-in is successful.
+  """
+  @spec generate_oauth_url_authorize(%{:host => any, optional(any) => any}, binary) :: String.t()
   def generate_oauth_url_authorize(conn, state) when is_binary(state) do
     params = URI.encode_query(%{state: state}, :rfc3986)
     generate_oauth_url_authorize(conn) <> "&#{params}"
   end
 
+
+  @doc """
+  `generate_oauth_url_logout/0` creates a logout URL.
+  This should the URL the person is redirected to when they want to logout.
+  To define the redirect URL (the URL that the user will be redirected to after successful logout from Microsoft ),
+  you need to set the `MICROSOFT_POST_LOGOUT_REDIRECT_URI` env variable
+  or `:post_logout_redirect_uri` in the config file.
+  """
   def generate_oauth_url_logout() do
 
     query = %{
@@ -39,6 +66,11 @@ defmodule ElixirAuthMicrosoft do
     "#{microsoft_logout_url()}?&#{params}"
   end
 
+  @doc """
+  `get_token/2` fetches the ID token using the authorization code that was previously obtained.
+  Env variables are used to encode information while fetching the ID token from Microsoft, including the registered client ID that was created in Azure Portal AD.
+  """
+  @spec get_token(String.t(), Conn.t()) :: {:ok, map} | {:error, any}
   def get_token(code, conn) do
     headers = ["Content-Type": "multipart/form-data"]
 
@@ -57,6 +89,10 @@ defmodule ElixirAuthMicrosoft do
 
   end
 
+  @doc """
+  `get_user_profile/1` fetches the signed-in Microsoft User info according to the token that is passed by calling `get_token/1`.
+  """
+  @spec get_user_profile(String.t()) :: {:error, any} | {:ok, map}
   def get_user_profile(token) do
     headers = ["Authorization": "Bearer #{token}", "Content-Type": "application/json"]
 
@@ -65,7 +101,13 @@ defmodule ElixirAuthMicrosoft do
 
   end
 
+  @doc """
+  `parse_body_response/1` parses the response from Microsoft's endpoints.
+  The keys of the decoded map are converted in atoms, for easier access in templates.
 
+  ##TODO check cases where the parsed code when fetching fails.
+  """
+  @spec parse_body_response({atom, String.t()} | {:error, any}) :: {:ok, map} | {:error, any}
   def parse_body_response({:error, err}), do: {:error, err}
   def parse_body_response({:ok, response}) do
     body = Map.get(response, :body)
