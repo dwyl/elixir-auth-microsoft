@@ -161,7 +161,7 @@ defmodule ElixirAuthMicrosoft do
   end
 
   defp get_callback_path do
-    System.get_env("MICROSOFT_CALLBACK_PATH") || @default_callback_path
+    System.get_env("MICROSOFT_CALLBACK_PATH") || Application.get_env(:elixir_auth_microsoft, :callback_path) || @default_callback_path
   end
 
 

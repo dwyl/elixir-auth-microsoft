@@ -307,6 +307,12 @@ get "/auth/microsoft/callback", MicrosoftAuthController, :index
 
 With all that hooked up you should now have everything working.
 
+> [!NOTE]
+>
+> You can define your callback path with an environment variable
+> `MICROSOFT_CALLBACK_PATH` 
+> or by using the config property `:callback_path` in your config files.
+
 ### 6.1 Give it a try!
 
 The home page of the app 
