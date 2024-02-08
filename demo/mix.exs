@@ -44,9 +44,11 @@ defmodule App.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
-      {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:httpoison, "~> 1.8.0"},
+
+      # Dependencies used by the package (to be the same as the package, make sure it's the same in the root mix.exs)
+      {:httpoison, ">= 0.6.1"},
+      {:jason, ">= 1.0.0"},
     ]
   end
 
