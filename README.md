@@ -93,7 +93,7 @@ It's targetted at **_complete_ beginners**
 with no prior experience/knowledge
 of auth "schemes" or "strategies". <br />
 Just follow the detailed instructions
-and you'll be up-and running in a few minutes minutes.
+and you'll be up-and running in a few minutes.
 
 
 # _How_? ✅
