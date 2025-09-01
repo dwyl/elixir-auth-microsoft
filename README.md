@@ -157,7 +157,7 @@ e.g:
 ```sh
 export MICROSOFT_CLIENT_SECRET=rDq8Q~.uc-237FryAt-lGu7G1sQkKR
 export MICROSOFT_CLIENT_ID=85228de4-cf4f-4249-ae05-247365
-export MICROSOFT_SCOPES_LIST=openid profile 
+export MICROSOFT_SCOPES_LIST="User.Read openid profile"
 ```
 
 > **Note**: These keys aren't valid, 
