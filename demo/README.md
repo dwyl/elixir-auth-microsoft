@@ -112,7 +112,7 @@ export MICROSOFT_CLIENT_SECRET=rDq8Q~.uc-237FryAt-lGu7G1sQkKR
 export MICROSOFT_CLIENT_ID=a3d22eeb-85aa-4650-8ee8-3383931
 ```
 
-> ⚠️ Don't worry, these keys aren't valid. 
+> ⚠️ Don't worry, these values aren't valid. 
 They are just here for illustration purposes.
 
 ## 3. Create 2 New Files  ➕
@@ -444,9 +444,8 @@ Open the file and add the following function:
   def logout(conn, _params) do
 
     # Clears token from user session
-    conn = conn |> delete_session(:token)
-
     conn
+    |> delete_session(:token)
     |> redirect(to: "/")
   end
 ```
@@ -466,7 +465,7 @@ Inside `lib/app_web/templates/page/welcome.html.heex`,
 add the button.
 
 ```html
-  <a href={@logout_microsoft_url}>
+  <a href="<%= @logout_microsoft_url %>">
     <button type="button" class="rounded-md bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">Sign Out</button>
   </a>
 ```
