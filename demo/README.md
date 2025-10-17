@@ -135,7 +135,7 @@ defmodule AppWeb.MicrosoftAuthController do
   use AppWeb, :controller
 
   @doc """
-  `index/2` handles the callback from Google Auth API redirect.
+  `index/2` handles the callback from Microsoft Auth API redirect.
   """
   def index(conn, %{"code" => code, "state" => state}) do
 
