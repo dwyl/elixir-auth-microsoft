@@ -313,16 +313,20 @@ and add the following function.
 ```elixir
   def welcome(conn, _params) do
 
-    # Check if there's a session token
-    case conn |> get_session(:token) do
+    # Check if there's a user_id in the session
+    case conn |> get_session(:user_id) do
 
       # If not, we redirect the person to the login page
       nil ->
         conn |> redirect(to: "/")
 
-      # If there's a token, we render the welcome page
-      token ->
-        {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
+      # If there's a user_id, we render the welcome page with stored user info
+      user_id ->
+        profile = %{
+          id: user_id,
+          displayName: get_session(conn, :user_name),
+          userPrincipalName: get_session(conn, :user_email)
+        }
 
         conn
         |> put_view(AppWeb.PageView)
@@ -333,12 +337,12 @@ and add the following function.
 
 We are using the 
 [`get_session`](https://hexdocs.pm/plug/Plug.Conn.html#get_session/2)
-to retrieve the `token` from the session.
+to retrieve the user information from the session.
 We've *yet* to place it there in the first place,
 but don't worry, we'll do it next!
-If no `token` is found,
+If no `user_id` is found,
 we redirect the person to the homepage to login.
-If it is, we render the page normally!
+If it is, we construct a profile map from the stored session data and render the page normally!
 
 Now let's put the `token` in the session
 after the person logs in successfully.
@@ -355,25 +359,38 @@ change the `index` function to the following:
     end
 
     {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
+    {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
 
-
+    # Store only essential user info to avoid cookie overflow
+    # Azure AD tokens can be 8KB+ for users with many group memberships.
+    # Alternatively, you can store the entire token.
+    # |> put_session(:token, token)
     conn
-    |> put_session(:token, token)
+    |> put_session(:user_id, profile.id)
+    |> put_session(:user_email, profile.mail || profile.userPrincipalName)
+    |> put_session(:user_name, profile.displayName)
     |> redirect(to: "/welcome")
   end
 ```
 
-We are simply using the
+We are using the
 [`put_session`](https://hexdocs.pm/plug/Plug.Conn.html#put_session/3)
-function to persist the token within the connection session
-to later be retrieved by the page
-after successful login.
+function to persist only the essential user information in the session.
+
+> [!WARNING]
+>
+> We store only the user's ID, email, and name instead of the entire token object. 
+> This prevents `Plug.Conn.CookieOverflowError` which occurs when cookies exceed 4096 bytes.
+> Microsoft/Azure AD tokens can be very large (8KB+), especially for users who are members 
+> of many Azure AD groups.
+> You can choose to store the entire token, but be aware of potential cookie size issues.
+
 The person is redirected to the `/welcome` page
 we've defined earlier if they manage to login.
 
 And that's it!
 If you refresh the `/welcome` page,
-the token won't be lost! 🎉
+the user info won't be lost! 🎉
 
 ## 7. Logging out
 
@@ -443,16 +460,18 @@ Open the file and add the following function:
 ```elixir
   def logout(conn, _params) do
 
-    # Clears token from user session
+    # Clears all user data from session
     conn
-    |> delete_session(:token)
+    |> clear_session()
     |> redirect(to: "/")
   end
 ```
 
-We are simply clearing the person's session
+We are simply clearing the person's entire session
 and redirecting them to the homepage
 (so they can log in again, if they wish to).
+Using `clear_session()` ensures all session data is removed, 
+not just specific keys.
 
 
 ### 7.2 Adding a button so the person logs out

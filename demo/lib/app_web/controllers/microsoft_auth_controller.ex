@@ -12,9 +12,14 @@ defmodule AppWeb.MicrosoftAuthController do
     end
 
     {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
+    {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
 
+    # Store only essential user info to avoid cookie overflow
+    # Azure AD tokens can be 8KB+ for users with many group memberships
     conn
-    |> put_session(:token, token)
+    |> put_session(:user_id, profile.id)
+    |> put_session(:user_email, profile.mail || profile.userPrincipalName)
+    |> put_session(:user_name, profile.displayName)
     |> redirect(to: "/welcome")
   end
 
@@ -23,10 +28,9 @@ defmodule AppWeb.MicrosoftAuthController do
   """
   def logout(conn, _params) do
 
-    # Clears token from user session
-    conn = conn |> delete_session(:token)
-
+    # Clears all user data from session
     conn
+    |> clear_session()
     |> redirect(to: "/")
   end
 end
