@@ -284,12 +284,32 @@ defmodule AppWeb.MicrosoftAuthController do
     {:ok, token} = ElixirAuthMicrosoft.get_token(code, conn)
     {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
 
+    # Store only essential user info to avoid cookie overflow
+    # Azure AD tokens can be 8KB+ for users with many group memberships.
+    # Alternatively, you can store the entire token.
+    # |> put_session(:token, token)
     conn
-    |> put_view(AppWeb.PageView)
-    |> render(:welcome, profile: profile)
+    |> put_session(:user_id, profile.id)
+    |> put_session(:user_email, profile.mail || profile.userPrincipalName)
+    |> put_session(:user_name, profile.displayName)
+    |> redirect(to: "/welcome")
   end
-end
 ```
+
+> [!WARNING]
+>
+> We store only the user's ID, email, and name instead of the entire token object. 
+> This prevents `Plug.Conn.CookieOverflowError` which occurs when cookies exceed 4096 bytes.
+> Microsoft/Azure AD tokens can be very large (8KB+), especially for users who are members 
+> of many Azure AD groups.
+> You can choose to store the entire token, but be aware of potential cookie size issues.
+
+> [!NOTE]
+> For production apps where you need to store access tokens for making API calls, consider:
+> 1. **Server-side sessions** - Store tokens in a database (PostgreSQL, MySQL) or cache (Redis)
+> 2. **Database with session reference** - Store a session ID in the cookie, store the full token in your database
+> 3. **Extract only required claims** - Parse the JWT and store only the specific claims you need
+
 
 The exact controller code implementation is up to you,🎉
 but we have provided a working example.

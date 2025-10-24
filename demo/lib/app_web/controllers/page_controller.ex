@@ -10,16 +10,20 @@ defmodule AppWeb.PageController do
 
   def welcome(conn, _params) do
 
-    # Check if there's a session token
-    case conn |> get_session(:token) do
+    # Check if there's a user_id in the session
+    case conn |> get_session(:user_id) do
 
       # If not, we redirect the user to the login page
       nil ->
         conn |> redirect(to: "/")
 
-      # If there's a token, we render the welcome page
-      token ->
-        {:ok, profile} = ElixirAuthMicrosoft.get_user_profile(token.access_token)
+      # If there's a user_id, we render the welcome page with stored user info
+      user_id ->
+        profile = %{
+          id: user_id,
+          displayName: get_session(conn, :user_name),
+          userPrincipalName: get_session(conn, :user_email)
+        }
 
         conn
         |> put_view(AppWeb.PageView)
