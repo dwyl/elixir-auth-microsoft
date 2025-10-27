@@ -41,7 +41,7 @@ defmodule ElixirAuthMicrosoft.MixProject do
       {:mock, "~> 0.3.7", only: :test},
 
       # For publishing Hex.docs:
-      {:ex_doc, "~> 0.38.0", only: :dev},
+      {:ex_doc, "~> 0.39.1", only: :dev},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false}
     ]
